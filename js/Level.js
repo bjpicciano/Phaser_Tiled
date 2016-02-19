@@ -1,4 +1,21 @@
-var level2 = function (game) {
+function Level (game, tilemap, color, debug) {
+    this.game = game;
+    
+    if (debug) {
+        this.debug = true;
+    }
+    
+    if (color != null) {
+        this.color = color;
+    }
+    
+    if (tilemap != null) {
+        //graphicAssets object containing .URL and .NAME
+        this.tilemap = tilemap;
+    } else {
+        this.tilemap = graphicAssets.level1;
+    }
+    
     this.enemies = [];
     
     this.player;
@@ -7,7 +24,7 @@ var level2 = function (game) {
     
     this.map;
     this.layer = {};
-    this.color = 0x009933;
+
     this.edgeUp;
     this.edgeDown;
     this.edgeLeft;
@@ -16,11 +33,11 @@ var level2 = function (game) {
     this.score;
 };
 
-level2.prototype = {
+Level.prototype = {
     
     preload: function () {
         //tilemap
-        game.load.tilemap(graphicAssets.level2.name, graphicAssets.level2.URL, null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap(this.tilemap.name, this.tilemap.URL, null, Phaser.Tilemap.TILED_JSON);
     },
     
     init: function (keys, stateData) {
@@ -33,6 +50,20 @@ level2.prototype = {
         }
         
         this.score = 0;
+    },
+    
+    render: function () {
+        if (this.debug) {
+            game.debug.spriteInfo(this.player.swordSprite, 32, 32);
+            game.debug.body(this.player.sprite);
+            game.debug.body(this.player.swordSprite);
+
+            for (var i = 0; i < this.enemies.length; i++) {
+                if (this.enemies[i].sprite.alive) {
+                    game.debug.body(this.enemies[i].sprite);
+                }
+            }
+        }
     },
     
     create: function () {
@@ -49,31 +80,42 @@ level2.prototype = {
         for (var i = 0; i < this.enemies.length; i++) {
             if (this.enemies[i].sprite.alive) {
                 this.enemies[i].update();
+                game.physics.arcade.overlap(this.player.swordSprite, this.enemies[i].sprite, this.collision, null, this);
             }
         }
     },
     
+    collision: function (hitter, hitee) {
+        hitee.kill();
+    },
+    
     initGraphics: function () {
         //set up tilemap
-        this.map = game.add.tilemap(graphicAssets.level2.name);
+        this.map = game.add.tilemap(this.tilemap.name);
         
         //#610B0B - dark red
         //#585 - light green
         var saturation = '#333333';
         initLevelGraphics(this, saturation);
+        
+        //scale options
+        // self.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     },
     
     initPhysics: function () {
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        // game.physics.startSystem(Phaser.Physics.P2JS);
+
         initLevelPhysics(this);
     },
     
     initEntities: function () {
         initPlayer(this, this.spawnX, this.spawnY);
         
-        var enemyCount = 1;
+        var enemyCount = 5;
         for (var i = 0; i < enemyCount; i++) {
-            var x = game.world.randomX;
-            var y = game.world.randomY;
+            var x;
+            var y;
             this.enemies.push(new Skall(game, i, this.player, x, y));
         }
     },
@@ -83,6 +125,3 @@ level2.prototype = {
         this.tf_score.text = this.score;
     },
 };
-
-//links the name 'level2' to the gameState
-// game.state.add(states.level2, level2);

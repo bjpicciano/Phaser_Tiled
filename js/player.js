@@ -26,7 +26,7 @@ function Player (game, x, y) {
     this.attackInterval = 0;
     this.attackDelay = 300;
     this.attackLifespan = 200;
-    this.attackDistance = 36;
+    this.attackDistance = 35;
 }
 
 Player.prototype = {
@@ -65,7 +65,9 @@ Player.prototype = {
             this.properties.velocity = this.properties.velocityStart;
         }
         
-        if ((game.state.getCurrentState().keys.key_attack.isDown)) {      //shift
+        if (game.state.getCurrentState().keys.key_attack.isDown) {      //shift
+            this.attack();
+        } if (game.state.getCurrentState().keys.key_control.isDown) {
             this.attack();
         }
     },

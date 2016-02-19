@@ -12,9 +12,21 @@ var states = {
     level1: "level1",
     level2: "level2",
     level3: "level3",
+    level4: "level4",
+    level5: "level5",
+    level6: "level6",
+    level7: "level7",
+    level8: "level8",
+    level9: "level9",
     
     levels: [],
 };
+
+var color = {
+    purple: 0x9933FF,
+    green: 0x009933,
+    blue: 0x3366FF,
+}
 
 var graphicAssets = {
     //sprites
@@ -27,9 +39,9 @@ var graphicAssets = {
     
     //tilemaps
     protoTiles: {URL:'assets/protoTiles.png', name:'protoTiles'},
-    level1: {URL:'levels/json/1.json', name:'level1'},
-    level2: {URL:'levels/json/2.json', name:'level1'},
-    level3: {URL:'levels/json/4.json', name:'level3'},
+    level1: {URL:'states/json/1.json', name:'level1'},
+    level2: {URL:'states/json/2.json', name:'level2'},
+    level4: {URL:'states/json/4.json', name:'level4'},
 };
 
 var fontAssets = {

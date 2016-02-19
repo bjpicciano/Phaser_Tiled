@@ -4,6 +4,7 @@ function initKeyboard (self) {
     self.keys.key_up = game.input.keyboard.addKey(Phaser.Keyboard.W);
     self.keys.key_down = game.input.keyboard.addKey(Phaser.Keyboard.S);
     self.keys.key_sprint = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
+    self.keys.key_control = game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
     self.keys.key_attack = game.input.activePointer;
     
     game.input.resetLocked = true;
