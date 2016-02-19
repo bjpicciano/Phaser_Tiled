@@ -12,6 +12,11 @@ function Player (game, x, y) {
     this.sprite = game.add.sprite(x, y, graphicAssets.player.name);
     this.sprite.anchor.set(0.5, 0.5); 
     
+    this.swordSprite = game.add.sprite(0, 0, graphicAssets.sword.name);
+    this.swordSprite.anchor.set(0.5, 0.5); 
+    this.swordSprite.kill();
+    this.sprite.addChild(this.swordSprite);
+    
     game.camera.follow(this.sprite);
     //does collide with world's bounds
     // game.camera.bounds = false;
@@ -19,27 +24,9 @@ function Player (game, x, y) {
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
     
     this.attackInterval = 0;
-    this.attackDelay = 200;
-    this.attackLifespan = 100;
-    
-    this.hitboxGroup = game.add.group();
-    this.hitboxGroup.enableBody = true;
-    this.hitboxGroup.physicsBodyType = Phaser.Physics.ARCADE;
-    this.hitboxGroup.createMultiple(1, graphicAssets.skall.name); 
-    this.hitboxGroup.setAll('anchor.x', 0.5);
-    this.hitboxGroup.setAll('anchor.y', 0.5);
-    this.hitboxGroup.setAll('lifespan', 100);
-    // this.sprite.addChild(this.hitboxGroup);
-    
-    //size and position of the body
-    // this.attacks.thrust.body.setSize(32, 16, 16);
- 
-    //anchors all hitboxes to 0.5, 0.5 after they've been created
-
-    
-    // for (var i = 0; i < this.hitboxGroup.children.length; i++) {
-    //     this.hitboxGroup.children[i].body.enable = false;
-    // };
+    this.attackDelay = 300;
+    this.attackLifespan = 200;
+    this.attackDistance = 36;
 }
 
 Player.prototype = {
@@ -85,23 +72,36 @@ Player.prototype = {
     
     attack: function () {
         if (game.time.now > this.attackInterval) {
+            var angleToPointer = game.physics.arcade.angleToPointer(this.sprite);
+            var x = Math.cos(angleToPointer) * this.attackDistance;
+            var y = Math.sin(angleToPointer) * this.attackDistance;
             
-            var attack = this.hitboxGroup.getFirstExists(false);
+            this.unkillSprite(this.swordSprite, x, y);
+            this.swordSprite.rotation = game.physics.arcade.angleToPointer(this.sprite);
             
-            if (attack) {
-                console.log("Create");
-                var radius = this.sprite.width * 0.5;
-                
-                attack.body.setSize(32, 16, 16);
-                
-                var x = this.sprite.x;
-                var y = this.sprite.y;
-                
-                attack.reset(x, y);
-                attack.lifespan = this.attackLifespan;
-            }
-            
+            game.time.events.add(this.attackLifespan, this.killSprite, this, this.swordSprite);
             this.attackInterval = game.time.now + this.attackDelay;
         }
-    }
+    },
+    
+    killSprite: function (sprite) {
+        sprite.kill();
+        sprite.body.destroy();
+    },
+    
+    unkillSprite: function (sprite, x, y) {
+        
+        if (x != null && y != null) {
+            sprite.reset(x, y);
+        }
+        
+        sprite.alive = true;
+        sprite.exists = true;
+        sprite.visible = true;
+        
+        game.physics.enable(this.swordSprite, Phaser.Physics.ARCADE);
+        var hitboxSize = 26;
+        this.swordSprite.body.setSize(hitboxSize, hitboxSize, 0);
+        this.swordSprite.body.allowRotation = false;
+    },
 }

@@ -15,6 +15,7 @@ mainState.prototype = {
         //sprite
         game.load.image(graphicAssets.background.name, graphicAssets.background.URL);
         game.load.image(graphicAssets.player.name, graphicAssets.player.URL);
+        game.load.image(graphicAssets.sword.name, graphicAssets.sword.URL);
         game.load.image(graphicAssets.skall.name, graphicAssets.skall.URL);
         
         //tilemap

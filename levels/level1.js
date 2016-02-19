@@ -1,6 +1,6 @@
 var level1 = function (game) {
     this.game = game;
-    this.debug = true;
+    this.debug = false;
     
     this.enemies = [];
     
@@ -40,10 +40,10 @@ level1.prototype = {
     
     render: function () {
         if (this.debug) {
+            game.debug.spriteInfo(this.player.swordSprite, 32, 32);
             game.debug.body(this.player.sprite);
-            if (this.player.hitboxGroup.getFirstExists(true)){
-                game.debug.body(this.player.hitboxGroup.getFirstExists(true));//,'#00CBB6');
-            }
+            game.debug.body(this.player.swordSprite);
+
             for (var i = 0; i < this.enemies.length; i++) {
                 if (this.enemies[i].sprite.alive) {
                     game.debug.body(this.enemies[i].sprite);
@@ -66,13 +66,13 @@ level1.prototype = {
         for (var i = 0; i < this.enemies.length; i++) {
             if (this.enemies[i].sprite.alive) {
                 this.enemies[i].update();
-                game.physics.arcade.overlap(this.player.hitboxGroup, this.enemies[i].sprite, this.collision, null, this);
+                game.physics.arcade.overlap(this.player.swordSprite, this.enemies[i].sprite, this.collision, null, this);
             }
         }
     },
     
-    collision: function (target, player) {
-        target.kill();
+    collision: function (hitter, hitee) {
+        hitee.kill();
     },
     
     initGraphics: function () {
