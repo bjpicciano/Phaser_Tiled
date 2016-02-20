@@ -1,11 +1,13 @@
-function Skall (game, index, player, x, y) {
+var Skall = function (game, x, y, player) {
     if (x == null && y == null) {
         x = game.world.randomX;
         y = game.world.randomY;
     }
     
-    this.game = game;
-    
+    //call the Phaser.Sprite passing in the game reference
+    Phaser.Sprite.call(this, game,  x, y, graphicAssets.skall.name);
+    this.anchor.setTo(0.5, 0.5);
+
     this.player = player;
     
     this.properties = {
@@ -18,47 +20,44 @@ function Skall (game, index, player, x, y) {
         fov: 400,
         leapFov: 120,
     };
-    
-    this.sprite = game.add.sprite(x, y, graphicAssets.skall.name);
-    this.sprite.anchor.set(0.5, 0.5);
-    this.sprite.name = index;
-    
-    game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-}
 
-Skall.prototype = {
-    update: function () {
-        this.updatePhysics();
-        this.idle();
-    },
+    game.add.existing(this);
     
-    updatePhysics: function () {
-        game.physics.arcade.collide(this.sprite, game.state.getCurrentState().layer[1]);
-        game.physics.arcade.collide(game.state.getCurrentState().enemies);
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+};
 
-        // game.physics.arcade.collide(this.sprite, this.player.sprite);
-    },
+Skall.prototype = Object.create(Phaser.Sprite.prototype);
+Skall.prototype.constructor = Skall;
+
+Skall.prototype.update = function () {
+    this.updatePhysics();
+    this.idle();
+};
+
+Skall.prototype.updatePhysics = function () {
+    game.physics.arcade.collide(this, game.state.getCurrentState().layer[1]);
+    // game.physics.arcade.collide(game.state.getCurrentState().enemies);
+};
+
+Skall.prototype.idle = function () {
+    if (this.isWithin(this.properties.leapFov, this.player)) {
+        this.follow(this.player, this.properties.velocityCharge);
+    } else if (this.isWithin(this.properties.fov, this.player)) {
+        this.follow(this.player, this.properties.velocity);
+    } else {
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+    }
+};
+
+Skall.prototype.follow = function (destinationSprite, speed) {
+    game.physics.arcade.moveToObject(this, destinationSprite, speed);
+};
+
+Skall.prototype.isWithin = function (distance, destinationSprite) {
+    if (game.physics.arcade.distanceBetween(this, destinationSprite) <= distance) {
+        return true;
+    }
     
-    idle: function () {
-        if (this.isWithin(this.properties.leapFov, this.player.sprite)) {
-            this.follow(this.player.sprite, this.properties.velocityCharge);
-        } else if (this.isWithin(this.properties.fov, this.player.sprite)) {
-            this.follow(this.player.sprite, this.properties.velocity);
-        } else {
-            this.sprite.body.velocity.x = 0;
-            this.sprite.body.velocity.y = 0;
-        }
-    },
-    
-    follow: function (destinationSprite, speed) {
-        game.physics.arcade.moveToObject(this.sprite, destinationSprite, speed);
-    },
-    
-    isWithin: function (distance, destinationSprite) {
-        if (game.physics.arcade.distanceBetween(this.sprite, destinationSprite) <= distance) {
-            return true;
-        }
-        
-        return false;
-    },
-}
+    return false;
+};
