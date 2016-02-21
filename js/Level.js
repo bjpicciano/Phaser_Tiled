@@ -1,30 +1,17 @@
 function Level (game, tilemap, color, debug) {
-    this.game = game;
-    
-    if (debug) {
-        this.debug = true;
-    }
-    
-    if (color != null) {
-        this.color = color;
-    }
-    
-    if (tilemap != null) {
-        //graphicAssets object containing .URL and .NAME
-        this.tilemap = tilemap;
-    } else {
-        this.tilemap = graphicAssets.level1;
-    }
-    
-    this.enemies = [];
+    if (debug) { this.debug = true; }
+    if (color != undefined) { this.color = color; }
+
+    this.enemies;
     
     this.player;
     this.spawnX;
     this.spawnY;
     
     this.map;
+    this.tilemap = tilemap;
     this.layer = {};
-
+    
     this.edgeUp;
     this.edgeDown;
     this.edgeLeft;
@@ -57,12 +44,10 @@ Level.prototype = {
             game.debug.spriteInfo(this.player.swordSprite, 32, 32);
             game.debug.body(this.player);
             game.debug.body(this.player.swordSprite);
-
-            for (var i = 0; i < this.enemies.length; i++) {
-                if (this.enemies[i].alive) {
-                    game.debug.body(this.enemies[i]);
-                }
-            }
+            
+            this.enemies.forEachAlive(function (member) {
+                game.debug.body(member);
+                }, this);
         }
     },
     
@@ -74,15 +59,15 @@ Level.prototype = {
     },
     
     update: function () {
-        this.player.update();
         checkBoundaries(this);
-        
-        for (var i = 0; i < this.enemies.length; i++) {
-            if (this.enemies[i].alive) {
-                // this.enemies[i].update();
-                game.physics.arcade.overlap(this.player.swordSprite, this.enemies[i], this.collision, null, this);
-            }
-        }
+        game.physics.arcade.overlap(this.player.swordSprite, this.enemies, this.collision, null, this);
+        // console.log(game.state.getCurrentState())
+        // for (var i = 0; i < this.enemies.length; i++) {
+        //     if (this.enemies[i].alive) {
+        //         // this.enemies[i].update();
+        //         game.physics.arcade.overlap(this.player.swordSprite, this.enemies[i], this.collision, null, this);
+        //     }
+        // }
     },
     
     collision: function (hitter, hitee) {
@@ -110,14 +95,15 @@ Level.prototype = {
     },
     
     initEntities: function () {
+        this.enemies = game.add.group();
         initPlayer(this, this.spawnX, this.spawnY);
         
-        var enemyCount = 5;  
-        for (var i = 0; i < enemyCount; i ++) {
-            var x;
-            var y;
-            this.enemies.push(new Skall(game, x, y, this.player));
-        }
+        // var enemyCount = 5;  
+        // for (var i = 0; i < enemyCount; i ++) {
+        //     this.enemies.push(new Skall(game, undefined, undefined, undefined, undefined, this.player));
+        // }
+
+        this.map.createFromObjects('sprite', 5, graphicAssets.skall.name, 0, true, false, this.enemies, Skall);
     },
     
     updateScore: function (score) {
@@ -148,7 +134,7 @@ function initLevelGraphics (self, saturation) {
     }
     
     if (saturation != null) {
-        self.game.stage.backgroundColor = saturation;
+        // self.game.stage.backgroundColor = saturation;
     }
 };
 

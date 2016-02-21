@@ -1,11 +1,10 @@
-var Player = function (game, x, y) {
-    if (x == null && y == null) {
-        x = game.world.randomX;
-        y = game.world.randomY;
-    }
+var Player = function (game, x, y, key, frame) {
+    if (x == undefined) { x = game.world.randomX; }
+    if (y == undefined) { y = game.world.randomY; }
+    if (key == undefined) { key = graphicAssets.player.name; }
     
     //call the Phaser.Sprite passing in the game reference
-    Phaser.Sprite.call(this, game,  x, y, graphicAssets.player.name);
+    Phaser.Sprite.call(this, game,  x, y, key);
     this.anchor.setTo(0.5, 0.5);
     
     this.swordSprite = new Sword(game, null, null);
@@ -25,6 +24,8 @@ var Player = function (game, x, y) {
     game.add.existing(this);
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
+    
+    game.input.onDown.add(this.attack, this);
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -62,20 +63,20 @@ Player.prototype.checkPlayerInput = function () {
         this.properties.velocity = this.properties.velocityStart;
     }
 
-    if (game.state.getCurrentState().keys.key_attack.isDown) {      //shift
-        this.attack();
-    } if (game.state.getCurrentState().keys.key_control.isDown) {
-        this.attack();
-    }
+    // if (game.state.getCurrentState().keys.key_attack.isDown) {      //shift
+    //     this.attack();
+    // } else if (game.state.getCurrentState().keys.key_attack.isDown) {
+        
+    // }
 };
 
 Player.prototype.attack = function (destinationSprite, speed) {
     if (game.time.now > this.swordSprite.properties.attackInterval) {
-    var angleToPointer = game.physics.arcade.angleToPointer(this);
+        var angleToPointer = game.physics.arcade.angleToPointer(this);
 
-    this.swordSprite.appear(angleToPointer);
+        this.swordSprite.appear(angleToPointer);
 
-    this.swordSprite.properties.attackInterval = game.time.now + this.swordSprite.properties.attackDelay;
+        this.swordSprite.properties.attackInterval = game.time.now + this.swordSprite.properties.attackDelay;
     }
 };
 

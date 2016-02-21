@@ -1,11 +1,10 @@
-var Sword = function (game, x, y) {
-    if (x == null && y == null) {
-        x = 0;
-        y = 0;
-    }
+var Sword = function (game, x, y, key, frame) {
+    if (x == undefined) { x = game.world.randomX; }
+    if (y == undefined) { y = game.world.randomY; }
+    if (key == undefined) { key = graphicAssets.sword.name; }
     
     //call the Phaser.Sprite passing in the game reference
-    Phaser.Sprite.call(this, game, x, y, graphicAssets.sword.name);
+    Phaser.Sprite.call(this, game,  x, y, key);
     this.anchor.setTo(0.5, 0.5);
     this.kill()
     

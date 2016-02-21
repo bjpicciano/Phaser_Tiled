@@ -1,15 +1,13 @@
-var Skall = function (game, x, y, player) {
-    if (x == null && y == null) {
-        x = game.world.randomX;
-        y = game.world.randomY;
-    }
-    
+var Skall = function (game, x, y, key, frame, player) {
+    if (x == undefined) { x = game.world.randomX; }
+    if (y == undefined) { y = game.world.randomY; }
+    if (key == undefined) { key = graphicAssets.skall.name; }
+    if (game.state.getCurrentState().player) { this.player = game.state.getCurrentState().player; }
+
     //call the Phaser.Sprite passing in the game reference
-    Phaser.Sprite.call(this, game,  x, y, graphicAssets.skall.name);
+    Phaser.Sprite.call(this, game, x, y, key);
     this.anchor.setTo(0.5, 0.5);
 
-    this.player = player;
-    
     this.properties = {
         startX: x,
         startY: y,
@@ -31,7 +29,10 @@ Skall.prototype.constructor = Skall;
 
 Skall.prototype.update = function () {
     this.updatePhysics();
-    this.idle();
+    
+    if (game.state.getCurrentState().player) {
+        this.idle();
+    }
 };
 
 Skall.prototype.updatePhysics = function () {
