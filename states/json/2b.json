@@ -21,8 +21,68 @@
          "width":25,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":19,
+         "name":"sprite",
+         "objects":[
+                {
+                 "gid":5,
+                 "height":32,
+                 "id":1,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":576,
+                 "y":96
+                }, 
+                {
+                 "gid":5,
+                 "height":32,
+                 "id":2,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":96,
+                 "y":576
+                }, 
+                {
+                 "gid":2,
+                 "height":32,
+                 "id":3,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":352,
+                 "y":288
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":25,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":1,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "properties":
     {
@@ -34,7 +94,7 @@
         {
          "columns":10,
          "firstgid":1,
-         "image":"protoTiles.png",
+         "image":"..\/..\/assets\/protoTiles.png",
          "imageheight":320,
          "imagewidth":320,
          "margin":0,

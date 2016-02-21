@@ -7,7 +7,7 @@ var Player = function (game, x, y, key, frame) {
     Phaser.Sprite.call(this, game,  x, y, key);
     this.anchor.setTo(0.5, 0.5);
     
-    this.swordSprite = new Sword(game, null, null);
+    this.swordSprite = new Sword(game, 0, 0, undefined, undefined);
     this.addChild(this.swordSprite);
     
     game.camera.follow(this);
@@ -94,8 +94,11 @@ function initKeyboard (self) {
 
 function initPlayer (self, x, y) {
     if ((x != null) && (y != null)) {
-        self.player = new Player(game, x, y);
-    } else {        
-        self.player = new Player(game, null, null);
+        self.player = new Player(game, x, y, undefined, undefined);
+    } else {
+        var playerGroup = game.add.group()
+        self.map.createFromObjects('sprite', 2, graphicAssets.player.name, 0, true, false, playerGroup, Player);
+        
+        self.player = playerGroup.getFirstExists();
     }
 };

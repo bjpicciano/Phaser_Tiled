@@ -1,10 +1,10 @@
 var Sword = function (game, x, y, key, frame) {
-    if (x == undefined) { x = game.world.randomX; }
-    if (y == undefined) { y = game.world.randomY; }
+    if (x == undefined) { x = 0; }
+    if (y == undefined) { y = 0; }
     if (key == undefined) { key = graphicAssets.sword.name; }
     
     //call the Phaser.Sprite passing in the game reference
-    Phaser.Sprite.call(this, game,  x, y, key);
+    Phaser.Sprite.call(this, game, x, y, key);
     this.anchor.setTo(0.5, 0.5);
     this.kill()
     
@@ -18,7 +18,7 @@ var Sword = function (game, x, y, key, frame) {
         //the distance away from the parent
         attackDistance : 35,
         //the size of the sword's hitbox
-        hitboxSize : 26,
+        hitboxSize : 22,
     };
 
     game.add.existing(this);

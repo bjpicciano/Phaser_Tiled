@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" nextobjectid="4">
  <tileset firstgid="1" name="protoTiles" tilewidth="32" tileheight="32" tilecount="100" columns="10">
-  <image source="protoTiles.png" width="320" height="320"/>
+  <image source="../../assets/protoTiles.png" width="320" height="320"/>
  </tileset>
  <layer name="background" width="25" height="19">
   <data encoding="csv">
@@ -49,4 +49,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="sprite">
+  <object id="2" gid="5" x="32" y="64" width="32" height="32"/>
+  <object id="3" gid="2" x="320" y="384" width="32" height="32"/>
+ </objectgroup>
 </map>

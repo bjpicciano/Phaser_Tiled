@@ -96,12 +96,8 @@ Level.prototype = {
     
     initEntities: function () {
         this.enemies = game.add.group();
-        initPlayer(this, this.spawnX, this.spawnY);
         
-        // var enemyCount = 5;  
-        // for (var i = 0; i < enemyCount; i ++) {
-        //     this.enemies.push(new Skall(game, undefined, undefined, undefined, undefined, this.player));
-        // }
+        initPlayer(this, this.spawnX, this.spawnY);
 
         this.map.createFromObjects('sprite', 5, graphicAssets.skall.name, 0, true, false, this.enemies, Skall);
     },
