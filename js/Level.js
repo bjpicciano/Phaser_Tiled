@@ -1,10 +1,11 @@
 function Level (game, tilemap, color, debug) {
     if (debug) { this.debug = true; }
     if (color != undefined) { this.color = color; }
-
+    
     this.enemies;
     
     this.player;
+    this.playerProperties;
     this.spawnX;
     this.spawnY;
     
@@ -27,14 +28,11 @@ Level.prototype = {
         game.load.tilemap(this.tilemap.name, this.tilemap.URL, null, Phaser.Tilemap.TILED_JSON);
     },
     
-    init: function (keys, stateData) {
-        if (keys != null) {
-            this.keys = keys;
-        }
+    init: function (keys, stateData, playerProperties) {
+        if (keys != undefined) { this.keys = keys; }
         
-        if (stateData != null) {
-            initEdge(this, stateData);
-        }
+        if (stateData != undefined) { initEdge(this, stateData); }
+        if (playerProperties != undefined) { this.playerProperties = playerProperties; }
         
         this.score = 0;
     },
@@ -60,14 +58,6 @@ Level.prototype = {
     
     update: function () {
         checkBoundaries(this);
-        game.physics.arcade.overlap(this.player.swordSprite, this.enemies, this.collision, null, this);
-        // console.log(game.state.getCurrentState())
-        // for (var i = 0; i < this.enemies.length; i++) {
-        //     if (this.enemies[i].alive) {
-        //         // this.enemies[i].update();
-        //         game.physics.arcade.overlap(this.player.swordSprite, this.enemies[i], this.collision, null, this);
-        //     }
-        // }
     },
     
     collision: function (hitter, hitee) {
@@ -82,23 +72,27 @@ Level.prototype = {
         //#585 - light green
         var saturation = '#333333';
         initLevelGraphics(this, saturation);
-        
-        //scale options
-        // self.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     },
     
     initPhysics: function () {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         // game.physics.startSystem(Phaser.Physics.P2JS);
-
+        
         initLevelPhysics(this);
     },
     
     initEntities: function () {
         this.enemies = game.add.group();
         
-        initPlayer(this, this.spawnX, this.spawnY);
-
+        initPlayer(this, this.spawnX, this.spawnY, this.playerProperties);
+        
+        //score text
+        if (this.tf_score == undefined) {
+            this.tf_score = game.add.text(game.width * .985, game.height * .95, this.player.properties.health, fontAssets.counterFontStyle);
+            this.tf_score.align = ' ';
+            this.tf_score.anchor.set(1, 0);
+        }
+        
         this.map.createFromObjects('sprite', 5, graphicAssets.skall.name, 0, true, false, this.enemies, Skall);
     },
     
@@ -108,22 +102,17 @@ Level.prototype = {
     },
 };
 
-function initLevelGraphics (self, saturation) {    
+function initLevelGraphics (self, saturation) {
     //the first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
     //the second parameter maps this name to the Phaser.Cache key 'tiles'
     self.map.addTilesetImage(graphicAssets.protoTiles.name, graphicAssets.protoTiles.name);
     
     //creates a layer with the name given in Tiled
     self.layer[0] = self.map.createLayer("background");
-
+    
     self.layer[1] = self.map.createLayer("collision");
     
     self.layer[0].resizeWorld();
-    
-    //score text
-    self.tf_score = game.add.text(game.width * .985, game.height * .01, self.score, fontAssets.counterFontStyle);
-    self.tf_score.align = 'right';
-    self.tf_score.anchor.set(1, 0);
     
     if (self.debug) {
         self.layer[1].debug = true;
@@ -138,7 +127,7 @@ function initBackground (self, color) {
     self.backgroundSprite = game.add.sprite(0, 0, graphicAssets.background.name);
     self.backgroundSprite.width = game.world.width;
     self.backgroundSprite.height = game.world.height;
-
+    
     self.backgroundSprite.tint = color;
     self.backgroundSprite.alpha = 0.4;
 };
@@ -153,7 +142,11 @@ function getRemainingLevels () {
     var randomLevelIndex = game.rnd.integerInRange(0, states.levels.length - 1);
     var nextLevel = states.levels[randomLevelIndex];
     states.levels.splice(randomLevelIndex, 1);
-    
+   
+    if (states.start == "") {
+        states.start = nextLevel
+    }
+       
     return nextLevel;
 };
 
@@ -180,7 +173,8 @@ function initEdge (self, stateData) {
 function checkBoundaries (self) {
     var sprite = self.player;
     var stateData;
-    if (sprite.x + gameProperties.padding < 0) { //left
+    //move off the left edge
+    if (sprite.x + gameProperties.padding < 0) {
         stateData = {
             spawnX: game.world.width + gameProperties.padding,  //x coord to spawn at in new state
             spawnY: sprite.y,   //y coord to spawn at in new state
@@ -194,9 +188,10 @@ function checkBoundaries (self) {
 
         if (self.edgeLeft != null) {
             //param2: clear world data , param3: clear cache data, extra custom data
-            game.state.start(self.edgeLeft, true, false, self.keys, stateData);
+            game.state.start(self.edgeLeft, true, false, self.keys, stateData, self.player.properties);
         }
-    } else if (sprite.x - gameProperties.padding > game.world.width) { //right
+    //move off the right edge
+    } else if (sprite.x - gameProperties.padding > game.world.width) {
         stateData = {
             spawnX: -gameProperties.padding,
             spawnY: sprite.y,
@@ -210,11 +205,11 @@ function checkBoundaries (self) {
 
         if (self.edgeRight != null) {
             //param2: clear world data , param3: clear cache data, extra custom data
-            game.state.start(self.edgeRight, true, false, self.keys, stateData);
+            game.state.start(self.edgeRight, true, false, self.keys, stateData, self.player.properties);
         }
     } 
-
-    if (sprite.y + gameProperties.padding < 0) { //up
+    //move off the up edge
+    if (sprite.y + gameProperties.padding < 0) {
         stateData = {
             spawnX: sprite.x,
             spawnY: game.world.height + gameProperties.padding,
@@ -228,9 +223,10 @@ function checkBoundaries (self) {
 
         if (self.edgeUp != null) {
             //param2: clear world data , param3: clear cache data, extra custom data
-            game.state.start(self.edgeUp, true, false, self.keys, stateData);
+            game.state.start(self.edgeUp, true, false, self.keys, stateData, self.player.properties);
         }
-    } else if (sprite.y - gameProperties.padding > game.world.height) { //down
+    //move off the down edge
+    } else if (sprite.y - gameProperties.padding > game.world.height) {
         stateData = {
             spawnX: sprite.x,
             spawnY: -gameProperties.padding,
@@ -244,7 +240,7 @@ function checkBoundaries (self) {
 
         if (self.edgeDown != null) {
             //param2: clear world data , param3: clear cache data, extra custom data
-            game.state.start(self.edgeDown, true, false, self.keys, stateData);
+            game.state.start(self.edgeDown, true, false, self.keys, stateData, self.player.properties);
         }
     }
 };

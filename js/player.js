@@ -4,7 +4,7 @@ var Player = function (game, x, y, key, frame) {
     if (key == undefined) { key = graphicAssets.player.name; }
     
     //call the Phaser.Sprite passing in the game reference
-    Phaser.Sprite.call(this, game,  x, y, key);
+    Phaser.Sprite.call(this, game, x, y, key);
     this.anchor.setTo(0.5, 0.5);
     
     this.swordSprite = new Sword(game, 0, 0, undefined, undefined);
@@ -18,7 +18,9 @@ var Player = function (game, x, y, key, frame) {
         velocityStart: 300,
         velocitySprint: 350,
         velocity: 300,
+        invincibleTime: 200,
         health: 5,
+        canTakeDamage: true,
     };
 
     game.add.existing(this);
@@ -34,6 +36,7 @@ Player.prototype.constructor = Player;
 Player.prototype.update = function () {
     this.updatePhysics();
     this.checkPlayerInput();
+    this.swordSprite.update();
 };
 
 Player.prototype.updatePhysics = function () {
@@ -62,12 +65,6 @@ Player.prototype.checkPlayerInput = function () {
     } else {
         this.properties.velocity = this.properties.velocityStart;
     }
-
-    // if (game.state.getCurrentState().keys.key_attack.isDown) {      //shift
-    //     this.attack();
-    // } else if (game.state.getCurrentState().keys.key_attack.isDown) {
-        
-    // }
 };
 
 Player.prototype.attack = function (destinationSprite, speed) {
@@ -78,6 +75,16 @@ Player.prototype.attack = function (destinationSprite, speed) {
 
         this.swordSprite.properties.attackInterval = game.time.now + this.swordSprite.properties.attackDelay;
     }
+};
+
+Player.prototype.takeDamage = function (damage) {
+    this.properties.health -= damage;
+        
+    if (this.properties.health <= 0) {
+        //restart the game from the first level
+        game.state.start(states.start, true);
+    }
+    console.log("Player: " + this.properties.health)
 };
 
 function initKeyboard (self) {
@@ -92,8 +99,8 @@ function initKeyboard (self) {
     game.input.resetLocked = true;
 };
 
-function initPlayer (self, x, y) {
-    if ((x != null) && (y != null)) {
+function initPlayer (self, x, y, playerProperties) {
+    if ((x != undefined) && (y != undefined)) {
         self.player = new Player(game, x, y, undefined, undefined);
     } else {
         var playerGroup = game.add.group()
@@ -101,4 +108,6 @@ function initPlayer (self, x, y) {
         
         self.player = playerGroup.getFirstExists();
     }
+    
+    if (playerProperties != undefined){ self.player.properties = playerProperties; }
 };

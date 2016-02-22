@@ -1,4 +1,4 @@
-var Skall = function (game, x, y, key, frame, player) {
+var Skall = function (game, x, y, key, frame) {
     if (x == undefined) { x = game.world.randomX; }
     if (y == undefined) { y = game.world.randomY; }
     if (key == undefined) { key = graphicAssets.skall.name; }
@@ -17,6 +17,10 @@ var Skall = function (game, x, y, key, frame, player) {
         velocity: 100,
         fov: 400,
         leapFov: 120,
+        damage: 1,
+        health: 5,
+        canDamage: true,
+        canDamageTimer: 200,
     };
 
     game.add.existing(this);
@@ -30,14 +34,16 @@ Skall.prototype.constructor = Skall;
 Skall.prototype.update = function () {
     this.updatePhysics();
     
-    if (game.state.getCurrentState().player) {
+    if (this.player) {
         this.idle();
     }
 };
 
 Skall.prototype.updatePhysics = function () {
     game.physics.arcade.collide(this, game.state.getCurrentState().layer[1]);
-    // game.physics.arcade.collide(game.state.getCurrentState().enemies);
+    game.physics.arcade.collide(this, game.state.getCurrentState().enemies);
+    
+    game.physics.arcade.overlap(this, this.player, this.damage, null, this);
 };
 
 Skall.prototype.idle = function () {
@@ -61,4 +67,23 @@ Skall.prototype.isWithin = function (distance, destinationSprite) {
     }
     
     return false;
+};
+
+Skall.prototype.damage = function (hitter, hitee) {
+    if (this.properties.canDamage) {
+        this.properties.canDamage = false;
+        
+        hitee.takeDamage(this.properties.damage);
+        
+        game.time.events.add(this.properties.canDamageTimer, function () { this.properties.canDamage = true }, this);
+    }
+};
+
+Skall.prototype.takeDamage = function (damage) {
+    this.properties.health -= damage;
+    
+    if (this.properties.health <= 0) {
+        this.kill();
+    }
+    console.log("Skall: " + this.properties.health)
 };

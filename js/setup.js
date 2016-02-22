@@ -8,6 +8,7 @@ var gameProperties = {
 };
 
 var states = {
+    start: "",
     main: "main",
     level1: "level1",
     level2: "level2",
