@@ -81,10 +81,23 @@ Player.prototype.takeDamage = function (damage) {
     this.properties.health -= damage;
         
     if (this.properties.health <= 0) {
-        //restart the game from the first level
-        game.state.start(states.start, true);
+
+        var currentState = game.state.getCurrentState();
+        if (currentState.key == states.start) {
+            currentState.spawnX = undefined;
+            currentState.spawnY = undefined;
+            currentState.player = undefined;
+            currentState.playerProperties = undefined;
+            
+            currentState.enemies = undefined;
+            
+            game.state.restart();
+        } else {
+            game.state.start(states.start, true);
+        }
     }
-    console.log("Player: " + this.properties.health)
+    
+    console.log(this.properties.health)
 };
 
 function initKeyboard (self) {

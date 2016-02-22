@@ -16,7 +16,7 @@ var Sword = function (game, x, y, key, frame) {
         //the time the sword appears for
         attackLifespan: 200,
         //the distance away from the parent
-        attackDistance: 35,
+        attackDistance: 37,
         //the size of the sword's hitbox
         hitboxSize: 22,
         damage: 2,
