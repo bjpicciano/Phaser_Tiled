@@ -19,7 +19,7 @@ var Sword = function (game, x, y, key, frame) {
         attackDistance: 37,
         //the size of the sword's hitbox
         hitboxSize: 22,
-        damage: 2,
+        damage: 3,
         //boolean to determine if it can damage another sprite
         canDamage: true,
         //time until it can deal damage again

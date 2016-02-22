@@ -58,7 +58,6 @@ Level.prototype = {
     
     update: function () {
         checkBoundaries(this);
-        console.log(game.state)
     },
     
     collision: function (hitter, hitee) {
