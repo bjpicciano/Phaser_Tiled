@@ -12,9 +12,9 @@ var Skall = function (game, x, y, key, frame) {
         startX: x,
         startY: y,
         velocityStart: 100,
-        velocityCharge: 300,
+        velocityCharge: 300 + game.rnd.integerInRange(-50, 25),
         velocityLeap: 600,
-        velocity: 100,
+        velocity: 100 + game.rnd.integerInRange(-15, 15),
         fov: 400,
         leapFov: 120,
         damage: 1,
@@ -85,5 +85,4 @@ Skall.prototype.takeDamage = function (damage) {
     if (this.properties.health <= 0) {
         this.kill();
     }
-    console.log("Skall: " + this.properties.health)
 };

@@ -12,7 +12,7 @@ var Sword = function (game, x, y, key, frame) {
         //the game.time until the next attack can be made
         attackInterval: 0,
         //the delay between attacks. Added to attackInterval
-        attackDelay: 300,
+        attackDelay: 250,
         //the time the sword appears for
         attackLifespan: 200,
         //the distance away from the parent

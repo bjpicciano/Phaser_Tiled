@@ -127,6 +127,7 @@ function initLevelGraphics (self, saturation) {
 
 function initBackground (self, color) {
     self.layer[3] = self.map.createLayer("above");
+    
     self.backgroundSprite = game.add.sprite(0, 0, graphicAssets.background.name);
     self.backgroundSprite.width = game.world.width;
     self.backgroundSprite.height = game.world.height;

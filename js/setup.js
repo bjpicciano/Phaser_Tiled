@@ -45,7 +45,7 @@ var graphicAssets = {
     protoTiles: {URL:'assets/protoTiles.png', name:'protoTiles'},
     level1: {URL:'states/json/1b.json', name:'level1'},
     level2: {URL:'states/json/2b.json', name:'level2'},
-    level3: {URL:'states/json/3b.json', name:'level3'},
+    level3: {URL:'states/json/protoLevel.json', name:'level3'},
     level4: {URL:'states/json/4a.json', name:'level4'},
 };
 

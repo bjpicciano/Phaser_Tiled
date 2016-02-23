@@ -3,21 +3,21 @@
 
 var debug = false;
 
-game.state.add(states.level1, new Level(this, graphicAssets.level1, getRandomHexColor(), debug));
-game.state.add(states.level2, new Level(this, graphicAssets.level1, getRandomHexColor(), debug));
-game.state.add(states.level3, new Level(this, graphicAssets.level1, getRandomHexColor(), debug));
+// game.state.add(states.level1, new Level(this, graphicAssets.level1, getRandomHexColor(), debug));
+// game.state.add(states.level2, new Level(this, graphicAssets.level1, getRandomHexColor(), debug));
+// game.state.add(states.level3, new Level(this, graphicAssets.level1, getRandomHexColor(), debug));
 
-game.state.add(states.level4, new Level(this, graphicAssets.level2, getRandomHexColor(), debug));
-game.state.add(states.level5, new Level(this, graphicAssets.level2, getRandomHexColor(), debug));
-game.state.add(states.level6, new Level(this, graphicAssets.level2, getRandomHexColor(), debug));
+// game.state.add(states.level4, new Level(this, graphicAssets.level2, getRandomHexColor(), debug));
+// game.state.add(states.level5, new Level(this, graphicAssets.level2, getRandomHexColor(), debug));
+// game.state.add(states.level6, new Level(this, graphicAssets.level2, getRandomHexColor(), debug));
 
 game.state.add(states.level7, new Level(this, graphicAssets.level3, getRandomHexColor(), debug));
 game.state.add(states.level8, new Level(this, graphicAssets.level3, getRandomHexColor(), debug));
 game.state.add(states.level9, new Level(this, graphicAssets.level3, getRandomHexColor(), debug));
 
-game.state.add(states.level10, new Level(this, graphicAssets.level4, getRandomHexColor(), debug));
-game.state.add(states.level11, new Level(this, graphicAssets.level4, getRandomHexColor(), debug));
-game.state.add(states.level12, new Level(this, graphicAssets.level4, getRandomHexColor(), debug));
+// game.state.add(states.level10, new Level(this, graphicAssets.level4, getRandomHexColor(), debug));
+// game.state.add(states.level11, new Level(this, graphicAssets.level4, getRandomHexColor(), debug));
+// game.state.add(states.level12, new Level(this, graphicAssets.level4, getRandomHexColor(), debug));
 
 //sets my states.levels to the array of every loaded level.
 //used to link edges of one level to other levels.

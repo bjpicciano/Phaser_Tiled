@@ -87,13 +87,10 @@ Player.prototype.takeDamage = function (damage) {
         
         startState.spawnX = undefined;
         startState.spawnY = undefined;
-        console.log(startState.player)
         startState.playerProperties = undefined;
         
         game.state.start(states.start, true);
     }
-    
-    console.log(this.properties.health)
 };
 
 function initKeyboard (self) {
