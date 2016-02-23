@@ -95,7 +95,6 @@ Level.prototype = {
         
         this.map.createFromObjects('sprite', 5, graphicAssets.skall.name, 0, true, false, this.enemies, Skall);
         this.map.createFromObjects('sprite', 15, graphicAssets.fonkey.name, 0, true, false, this.enemies, Skall);
-                
     },
     
     updateScore: function (score) {

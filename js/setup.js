@@ -44,10 +44,8 @@ var graphicAssets = {
     
     //tilemaps
     protoTiles: {URL:'assets/protoTiles.png', name:'protoTiles'},
-    level1: {URL:'states/json/1b.json', name:'level1'},
-    level2: {URL:'states/json/2b.json', name:'level2'},
+    level1: {URL:'states/json/protoLevel2.json', name:'level1'},
     level3: {URL:'states/json/protoLevel.json', name:'level3'},
-    level4: {URL:'states/json/4a.json', name:'level4'},
 };
 
 var fontAssets = {
