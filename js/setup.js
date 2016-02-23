@@ -40,6 +40,7 @@ var graphicAssets = {
     tree: {URL:'assets/tree.png', name:'tree'},
     brick: {URL:'assets/brick.png', name:'brick'},
     skall: {URL:'assets/skall.png', name:'skall'},
+    fonkey: {URL:'assets/fonkey.png', name:'fonkey'},
     
     //tilemaps
     protoTiles: {URL:'assets/protoTiles.png', name:'protoTiles'},

@@ -24,7 +24,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"sprite",
          "objects":[
                 {
@@ -378,13 +378,77 @@
                  "width":32,
                  "x":448,
                  "y":1184
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":480,
+                 "y":2432
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":33,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":896,
+                 "y":3072
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":34,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1120,
+                 "y":2592
+                }, 
+                {
+                 "gid":15,
+                 "height":32,
+                 "id":35,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":320,
+                 "y":2944
                 }],
          "offsetx":-96,
          "offsety":0,
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":100,
+         "width":0,
          "x":0,
          "y":0
         }, 
@@ -399,7 +463,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":32,
+ "nextobjectid":36,
  "orientation":"orthogonal",
  "properties":
     {

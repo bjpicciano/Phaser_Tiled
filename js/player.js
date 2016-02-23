@@ -15,9 +15,9 @@ var Player = function (game, x, y, key, frame) {
     // game.camera.bounds = false;
     
     this.properties = {
-        velocityStart: 300,
+        velocityStart: 235,
         velocitySprint: 350,
-        velocity: 300,
+        velocity: undefined,
         invincibleTime: 200,
         health: 5,
         canTakeDamage: true,

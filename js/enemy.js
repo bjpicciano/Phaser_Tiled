@@ -11,16 +11,17 @@ var Skall = function (game, x, y, key, frame) {
     this.properties = {
         startX: x,
         startY: y,
-        velocityStart: 100,
-        velocityCharge: 300 + game.rnd.integerInRange(-50, 25),
-        velocityLeap: 600,
+        velocityWalk: 60,
+        velocityCharge: 310 + game.rnd.integerInRange(-50, 25),
+        // velocityLeap: 600,
         velocity: 100 + game.rnd.integerInRange(-15, 15),
-        fov: 400,
-        leapFov: 120,
+        fov: 250,
+        leapFov: 70,
         damage: 1,
         health: 5,
         canDamage: true,
         canDamageTimer: 200,
+        roamer: game.rnd.integerInRange(0, 4), // 1/4 chance of being a roamer
     };
 
     game.add.existing(this);
@@ -34,8 +35,12 @@ Skall.prototype.constructor = Skall;
 Skall.prototype.update = function () {
     this.updatePhysics();
     
-    if (this.player) {
-        this.idle();
+    if (this.player != undefined) {
+        if (this.properties.roamer == 0) {
+            this.roam();
+        } else {
+            this.idle();
+        }
     }
 };
 
@@ -47,14 +52,45 @@ Skall.prototype.updatePhysics = function () {
 };
 
 Skall.prototype.idle = function () {
-    if (this.isWithin(this.properties.leapFov, this.player)) {
-        this.follow(this.player, this.properties.velocityCharge);
-    } else if (this.isWithin(this.properties.fov, this.player)) {
-        this.follow(this.player, this.properties.velocity);
+    if (this.isWithin(this.properties.fov, this.player)) {
+        this.pursue();
     } else {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
     }
+};
+
+Skall.prototype.roam = function () {
+    if (this.isWithin(this.properties.fov, this.player)) {
+        this.pursue();
+    } else {
+        if (this.xp == undefined && this.yp == undefined) {
+            var x = this.x + game.rnd.integerInRange(-500, 500);
+            var y = this.y + game.rnd.integerInRange(-500, 500);
+            
+            if ((x >= 0 && y >= 0) && (x <= game.world.width && y <= game.world.height)) {
+                this.xp = x;
+                this.yp = y;
+            };
+        }
+
+        if (this.xp && this.yp) {
+            game.physics.arcade.moveToXY(this, this.xp, this.yp, this.properties.velocityWalk);
+        }
+        
+        if (game.physics.arcade.distanceToXY(this, this.xp, this.yp) <= 10) {
+            this.xp = undefined;
+            this.yp = undefined;
+        }
+    }
+};
+
+Skall.prototype.pursue = function () {
+    if (this.isWithin(this.properties.leapFov, this.player)) {
+        game.physics.arcade.moveToObject(this, this.player, this.properties.velocityCharge);
+    } else if (this.isWithin(this.properties.fov, this.player)) {
+        game.physics.arcade.moveToObject(this, this.player, this.properties.velocity);
+    };
 };
 
 Skall.prototype.follow = function (destinationSprite, speed) {

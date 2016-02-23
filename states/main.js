@@ -18,6 +18,7 @@ mainState.prototype = {
         game.load.image(graphicAssets.tree.name, graphicAssets.tree.URL);
         game.load.image(graphicAssets.sword.name, graphicAssets.sword.URL);
         game.load.image(graphicAssets.skall.name, graphicAssets.skall.URL);
+        game.load.image(graphicAssets.fonkey.name, graphicAssets.fonkey.URL);
         
         //tilemap
         game.load.image(graphicAssets.protoTiles.name, graphicAssets.protoTiles.URL);
