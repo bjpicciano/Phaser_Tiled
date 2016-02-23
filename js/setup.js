@@ -2,7 +2,7 @@ var gameProperties = {
     screenWidth: 800,
     screenHeight: 608,
     
-    padding: -16,
+    padding: 0,
     
     delayToStartLevel: 3,
 };

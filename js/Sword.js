@@ -25,7 +25,7 @@ var Sword = function (game, x, y, key, frame) {
         //time until it can deal damage again
         canDamageTimer: 200,
     };
-
+ 
     game.add.existing(this);
 };
 

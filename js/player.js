@@ -83,18 +83,14 @@ Player.prototype.takeDamage = function (damage) {
     if (this.properties.health <= 0) {
 
         var currentState = game.state.getCurrentState();
-        if (currentState.key == states.start) {
-            currentState.spawnX = undefined;
-            currentState.spawnY = undefined;
-            currentState.player = undefined;
-            currentState.playerProperties = undefined;
-            
-            currentState.enemies = undefined;
-            
-            game.state.restart();
-        } else {
-            game.state.start(states.start, true);
-        }
+        var startState = game.state.states[states.start];
+        
+        startState.spawnX = undefined;
+        startState.spawnY = undefined;
+        console.log(startState.player)
+        startState.playerProperties = undefined;
+        
+        game.state.start(states.start, true);
     }
     
     console.log(this.properties.health)
