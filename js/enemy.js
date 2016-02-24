@@ -13,7 +13,6 @@ var Skall = function (game, x, y, key, frame) {
         startY: y,
         velocityWalk: 60,
         velocityCharge: 310 + game.rnd.integerInRange(-50, 25),
-        // velocityLeap: 600,
         velocity: 100 + game.rnd.integerInRange(-15, 15),
         fov: 250,
         leapFov: 70,

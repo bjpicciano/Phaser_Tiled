@@ -1,7 +1,7 @@
 var Player = function (game, x, y, key, frame) {
     if (x == undefined) { x = game.world.randomX; }
     if (y == undefined) { y = game.world.randomY; }
-    if (key == undefined) { key = graphicAssets.player.name; }
+    if (key == undefined) { key = graphicAssets.playerAnim.name; }
     
     //call the Phaser.Sprite passing in the game reference
     Phaser.Sprite.call(this, game, x, y, key);
@@ -60,8 +60,10 @@ Player.prototype.checkPlayerInput = function () {
 
     if ((game.state.getCurrentState().keys.key_right.isDown) && (this.x <= game.world.width + gameProperties.padding)) {        //Right  D
         this.body.velocity.x = this.properties.velocity;
+        this.loadTexture(graphicAssets.player.name);
     } else if ((game.state.getCurrentState().keys.key_left.isDown) && (this.x >= -gameProperties.padding)) {  //Left  A
         this.body.velocity.x = -this.properties.velocity;
+        this.loadTexture(graphicAssets.playerAnim.name);
     } else {
         this.body.velocity.x = 0;
     }

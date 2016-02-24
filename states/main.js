@@ -15,6 +15,7 @@ mainState.prototype = {
         //sprite
         game.load.image(graphicAssets.background.name, graphicAssets.background.URL);
         game.load.image(graphicAssets.player.name, graphicAssets.player.URL);
+        game.load.image(graphicAssets.playerAnim.name, graphicAssets.playerAnim.URL);
         game.load.image(graphicAssets.healthbar.name, graphicAssets.healthbar.URL);   
         game.load.image(graphicAssets.tree.name, graphicAssets.tree.URL);
         game.load.image(graphicAssets.sword.name, graphicAssets.sword.URL);

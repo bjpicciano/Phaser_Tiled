@@ -1,7 +1,7 @@
 //create the levels from the premade tilemaps
 // var randomColor = Math.random() * 0xffffff;
 
-var debug = true;
+var debug = false;
 
 game.state.add(states.level1, new Level(this, graphicAssets.level1, getRandomHexColor(), debug));
 game.state.add(states.level2, new Level(this, graphicAssets.level1, getRandomHexColor(), debug));
