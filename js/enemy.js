@@ -43,7 +43,7 @@ Skall.prototype.update = function () {
         } else {
             this.idle();
         }
-    }
+    };
 };
 
 Skall.prototype.updatePhysics = function () {

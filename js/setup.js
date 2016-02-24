@@ -1,6 +1,6 @@
 var gameProperties = {
     screenWidth: 800,
-    screenHeight: 608,
+    screenHeight: 600,
     
     padding: 0,
     
@@ -8,7 +8,7 @@ var gameProperties = {
 };
 
 var states = {
-    start: "",
+    start: undefined,
     main: "main",
     level1: "level1",
     level2: "level2",
@@ -34,6 +34,7 @@ var color = {
 
 var graphicAssets = {
     //sprites
+    main: {URL:'assets/main.png', name:'main'},
     background: {URL:'assets/background.png', name:'background'},
     player: {URL:'assets/player.png', name:'player'},
     playerAnim: {URL:'assets/playerAnim.png', name:'playerAnim'},
@@ -46,6 +47,7 @@ var graphicAssets = {
     
     //tilemaps
     protoTiles: {URL:'assets/protoTiles.png', name:'protoTiles'},
+    small: {URL:'states/json/1b.json', name:'smallMap'},
     level1: {URL:'states/json/protoLevel.json', name:'level1'},
     level2: {URL:'states/json/protoLevel2.json', name:'level2'},
     level3: {URL:'states/json/protoLevel3.json', name:'level3'},

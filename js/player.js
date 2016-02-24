@@ -17,6 +17,7 @@ var Player = function (game, x, y, key, frame) {
         velocitySprint: 350,
         velocity: undefined,
         invincibleTime: 200,
+        deathTime: 1350,
         healthMax: 10,
         health: undefined,
         canTakeDamage: true,
@@ -97,7 +98,9 @@ Player.prototype.takeDamage = function (damage) {
         startState.spawnY = undefined;
         startState.playerProperties = undefined;
         
-        game.state.start(states.start, true);
+        this.kill();
+        
+        game.time.events.add(this.properties.deathTime, function () { game.state.start(states.start, true); }, this);
     }
 };
 

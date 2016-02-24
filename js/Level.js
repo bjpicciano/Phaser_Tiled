@@ -17,8 +17,6 @@ function Level (game, tilemap, color, debug) {
     this.edgeDown;
     this.edgeLeft;
     this.edgeRight;
-    
-    this.score;
 };
 
 Level.prototype = {
@@ -31,10 +29,8 @@ Level.prototype = {
     init: function (keys, stateData, playerProperties) {
         if (keys != undefined) { this.keys = keys; }
         
-        if (stateData != undefined) { initEdge(this, stateData); }
+        if (stateData != undefined) { this.initEdges(stateData); }
         if (playerProperties != undefined) { this.playerProperties = playerProperties; }
-        
-        this.score = 0;
     },
     
     render: function () {
@@ -53,11 +49,11 @@ Level.prototype = {
         this.initGraphics();
         this.initPhysics();
         this.initEntities();
-        initBackground(this, this.color);
+        this.initBackground();
     },
     
     update: function () {
-        checkBoundaries(this);
+        this.checkBoundaries();
     },
     
     collision: function (hitter, hitee) {
@@ -68,13 +64,26 @@ Level.prototype = {
         //set up tilemap
         this.map = game.add.tilemap(this.tilemap.name);
         
-        initLevelGraphics(this);
+        //the first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
+        //the second parameter maps this name to the Phaser.Cache key 'tiles'
+        this.map.addTilesetImage(graphicAssets.protoTiles.name, graphicAssets.protoTiles.name);
+
+        //creates a layer with the name given in Tiled
+        this.layer[0] = this.map.createLayer("background");
+
+        this.layer[1] = this.map.createLayer("collision");
+
+        this.layer[0].resizeWorld();
+        this.checkMapBoundsOnEdges();
+
+        if (this.debug) {
+            this.layer[1].debug = true;
+        }
     },
     
     initPhysics: function () {
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        
-        initLevelPhysics(this);
+        this.map.setCollisionBetween(1, 100, true, 'collision');
     },
     
     initEntities: function () {
@@ -82,54 +91,125 @@ Level.prototype = {
         
         initPlayer(this, this.spawnX, this.spawnY, this.playerProperties);
         
-        //score text
-        if (this.tf_score == undefined) {
-            this.tf_score = game.add.text(game.width * .985, game.height * .95, this.player.properties.health, fontAssets.counterFontStyle);
-            this.tf_score.align = ' ';
-            this.tf_score.anchor.set(1, 0);
-        }
-        
         this.map.createFromObjects('sprite', 5, graphicAssets.skall.name, 0, true, false, this.enemies, Skall);
         this.map.createFromObjects('sprite', 15, graphicAssets.fonkey.name, 0, true, false, this.enemies, Skall);
     },
-    
-    updateScore: function (score) {
-        this.score += score;
-        this.tf_score.text = this.score;
+
+    initBackground: function () {
+        this.layer[3] = this.map.createLayer("above");
+        
+        this.backgroundSprite = game.add.sprite(0, 0, graphicAssets.background.name);
+        this.backgroundSprite.width = game.world.width;
+        this.backgroundSprite.height = game.world.height;
+        
+        this.backgroundSprite.tint = this.color;
+        this.backgroundSprite.alpha = 0.4;
     },
-};
+    
+    initEdges: function (stateData) {
+        this.spawnX = stateData.spawnX;
+        this.spawnY = stateData.spawnY;
 
-function initLevelGraphics (self) {
-    //the first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
-    //the second parameter maps this name to the Phaser.Cache key 'tiles'
-    self.map.addTilesetImage(graphicAssets.protoTiles.name, graphicAssets.protoTiles.name);
+        if (stateData.edge == 'x') {
+            if (stateData.spawnX < game.world.width / 2) {
+                this.edgeLeft = stateData.returnState;
+            } else {
+                this.edgeRight = stateData.returnState;
+            }
+        } else if (stateData.edge == 'y') {
+            if (stateData.spawnY < game.world.height / 2) {
+                this.edgeUp = stateData.returnState;
+            } else {
+                this.edgeDown = stateData.returnState;
+            }
+        }
+    },
     
-    //creates a layer with the name given in Tiled
-    self.layer[0] = self.map.createLayer("background");
+    checkMapBoundsOnEdges: function () {
+        if (this.spawnX > game.world.width - gameProperties.padding) {
+            this.spawnX = game.world.width - 2*gameProperties.padding
+            console.log("x: " + this.spawnX)
+        }
+        
+        if (this.spawnY > game.world.height - gameProperties.padding) {
+            this.spawnY = game.world.height - 2*gameProperties.padding
+            console.log("y: " + this.spawnY)
+        }
+    },
     
-    self.layer[1] = self.map.createLayer("collision");
+    checkBoundaries: function () {
+        var sprite = this.player;
+        var stateData;
+        //move off the left edge
+        if (sprite.x + gameProperties.padding < 0) {
+            stateData = {
+                spawnX: game.world.width + gameProperties.padding, //x coord to spawn at in new state
+                spawnY: sprite.y, //y coord to spawn at in new state
+                edge: 'x', //x or y to determine the new level's edge that will return here
+                returnState: game.state.current, //this state to return back to
+            }
 
-    self.layer[0].resizeWorld();
-    
-    if (self.debug) {
-        self.layer[1].debug = true;
-    }
-};
+            //if an edge isn't already initalized, get a random level.
+            if (this.edgeLeft == null) {
+                this.edgeLeft = getRemainingLevels();
+            }
 
-function initBackground (self, color) {
-    self.layer[3] = self.map.createLayer("above");
-    
-    self.backgroundSprite = game.add.sprite(0, 0, graphicAssets.background.name);
-    self.backgroundSprite.width = game.world.width;
-    self.backgroundSprite.height = game.world.height;
-    
-    self.backgroundSprite.tint = color;
-    self.backgroundSprite.alpha = 0.4;
-};
+            //check in case we don't have any more levels
+            if (this.edgeLeft != null) {
+                //param2: clear world data , param3: clear cache data, extra custom data
+                game.state.start(this.edgeLeft, true, false, this.keys, stateData, this.player.properties);
+            }
+        //move off the right edge
+        } else if (sprite.x - gameProperties.padding > game.world.width) {
+            stateData = {
+                spawnX: -gameProperties.padding,
+                spawnY: sprite.y,
+                edge: 'x',
+                returnState: game.state.current,
+            }
 
-function initLevelPhysics (self) {
-    //tilemap physics
-    self.map.setCollisionBetween(1, 100, true, 'collision');
+            if (this.edgeRight == null) {
+                this.edgeRight = getRemainingLevels();
+            }
+
+            if (this.edgeRight != null) {
+                game.state.start(this.edgeRight, true, false, this.keys, stateData, this.player.properties);
+            }
+        } 
+        //move off the up edge
+        if (sprite.y + gameProperties.padding < 0) {
+            stateData = {
+                spawnX: sprite.x,
+                spawnY: game.world.height + gameProperties.padding,
+                edge: 'y',
+                returnState: game.state.current,
+            }
+
+            if (this.edgeUp == null) {
+                this.edgeUp = getRemainingLevels();
+            }
+
+            if (this.edgeUp != null) {
+                game.state.start(this.edgeUp, true, false, this.keys, stateData, this.player.properties);
+            }
+        //move off the down edge
+        } else if (sprite.y - gameProperties.padding > game.world.height) {
+            stateData = {
+                spawnX: sprite.x,
+                spawnY: -gameProperties.padding,
+                edge: 'y',
+                returnState: game.state.current,
+            }
+
+            if (this.edgeDown == null) {
+                this.edgeDown = getRemainingLevels();
+            }
+
+            if (this.edgeDown != null) {
+                game.state.start(this.edgeDown, true, false, this.keys, stateData, this.player.properties);
+            }
+        }
+    },
 };
 
 function getRemainingLevels () {
@@ -137,102 +217,9 @@ function getRemainingLevels () {
     var nextLevel = states.levels[randomLevelIndex];
     states.levels.splice(randomLevelIndex, 1);
    
-    if (states.start == "") {
+    if (states.start == undefined) {
         states.start = nextLevel
     }
        
     return nextLevel;
-};
-
-function initEdge (self, stateData) {
-    self.spawnX = stateData.spawnX;
-    self.spawnY = stateData.spawnY;
-
-    if (stateData.edge == 'x') {
-        if (stateData.spawnX < game.world.width / 2) {
-            self.edgeLeft = stateData.returnState;
-        } else {
-            self.edgeRight = stateData.returnState;
-        }
-    } else if (stateData.edge == 'y') {
-        if (stateData.spawnY < game.world.height / 2) {
-            self.edgeUp = stateData.returnState;
-        } else {
-            self.edgeDown = stateData.returnState;
-        }
-    }
-};
-
-function checkBoundaries (self) {
-    var sprite = self.player;
-    var stateData;
-    //move off the left edge
-    if (sprite.x + gameProperties.padding < 0) {
-        stateData = {
-            spawnX: game.world.width + gameProperties.padding, //x coord to spawn at in new state
-            spawnY: sprite.y, //y coord to spawn at in new state
-            edge: 'x', //x or y to determine the new level's edge that will return here
-            returnState: game.state.current, //this state to return back to
-        }
-
-        //if an edge isn't already initalized, get a random level.
-        if (self.edgeLeft == null) {
-            self.edgeLeft = getRemainingLevels();
-        }
-
-        //check in case we don't have any more levels
-        if (self.edgeLeft != null) {
-            //param2: clear world data , param3: clear cache data, extra custom data
-            game.state.start(self.edgeLeft, true, false, self.keys, stateData, self.player.properties);
-        }
-    //move off the right edge
-    } else if (sprite.x - gameProperties.padding > game.world.width) {
-        stateData = {
-            spawnX: -gameProperties.padding,
-            spawnY: sprite.y,
-            edge: 'x',
-            returnState: game.state.current,
-        }
-
-        if (self.edgeRight == null) {
-            self.edgeRight = getRemainingLevels();
-        }
-
-        if (self.edgeRight != null) {
-            game.state.start(self.edgeRight, true, false, self.keys, stateData, self.player.properties);
-        }
-    } 
-    //move off the up edge
-    if (sprite.y + gameProperties.padding < 0) {
-        stateData = {
-            spawnX: sprite.x,
-            spawnY: game.world.height + gameProperties.padding,
-            edge: 'y',
-            returnState: game.state.current,
-        }
-
-        if (self.edgeUp == null) {
-            self.edgeUp = getRemainingLevels();
-        }
-
-        if (self.edgeUp != null) {
-            game.state.start(self.edgeUp, true, false, self.keys, stateData, self.player.properties);
-        }
-    //move off the down edge
-    } else if (sprite.y - gameProperties.padding > game.world.height) {
-        stateData = {
-            spawnX: sprite.x,
-            spawnY: -gameProperties.padding,
-            edge: 'y',
-            returnState: game.state.current,
-        }
-
-        if (self.edgeDown == null) {
-            self.edgeDown = getRemainingLevels();
-        }
-
-        if (self.edgeDown != null) {
-            game.state.start(self.edgeDown, true, false, self.keys, stateData, self.player.properties);
-        }
-    }
 };
