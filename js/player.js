@@ -19,9 +19,15 @@ var Player = function (game, x, y, key, frame) {
         velocitySprint: 350,
         velocity: undefined,
         invincibleTime: 200,
-        health: 5,
+        healthMax: 10,
+        health: undefined,
         canTakeDamage: true,
     };
+    this.properties.health = this.properties.healthMax;
+
+    this.healthbar = new Healthbar(game, 0, -27, undefined, undefined);
+    this.healthbar.attachParent(this);
+    this.addChild(this.healthbar);
 
     game.add.existing(this);
     
@@ -82,7 +88,6 @@ Player.prototype.takeDamage = function (damage) {
         
     if (this.properties.health <= 0) {
 
-        var currentState = game.state.getCurrentState();
         var startState = game.state.states[states.start];
         
         startState.spawnX = undefined;
@@ -115,5 +120,7 @@ function initPlayer (self, x, y, playerProperties) {
         self.player = playerGroup.getFirstExists();
     }
     
-    if (playerProperties != undefined){ self.player.properties = playerProperties; }
+    if (playerProperties != undefined) {
+        self.player.properties = playerProperties;
+    }
 };

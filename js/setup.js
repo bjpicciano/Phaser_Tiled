@@ -36,6 +36,7 @@ var graphicAssets = {
     //sprites
     background: {URL:'assets/background.png', name:'background'},
     player: {URL:'assets/player.png', name:'player'},
+    healthbar: {URL:'assets/healthbar.png', name:'healthbar'},
     sword: {URL:'assets/sword.png', name:'sword'},
     tree: {URL:'assets/tree.png', name:'tree'},
     brick: {URL:'assets/brick.png', name:'brick'},

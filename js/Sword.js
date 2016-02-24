@@ -41,10 +41,7 @@ Sword.prototype.appear = function (angleToPointer) {
     var y = Math.sin(angleToPointer) * this.properties.attackDistance;
     
     this.reset(x, y);
-    
-    this.alive = true;
-    this.exists = true;
-    this.visible = true;
+
     this.rotation = angleToPointer;
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
