@@ -11,8 +11,6 @@ var Player = function (game, x, y, key, frame) {
     this.addChild(this.swordSprite);
     
     game.camera.follow(this);
-    //does collide with world's bounds
-    // game.camera.bounds = false;
     
     this.properties = {
         velocityStart: 235,
@@ -50,25 +48,28 @@ Player.prototype.updatePhysics = function () {
 };
 
 Player.prototype.checkPlayerInput = function () {
-    if ((game.state.getCurrentState().keys.key_up.isDown) && (this.y >= -gameProperties.padding)) {           //Up  W
+    //up
+    if ((game.state.getCurrentState().keys.key_up.isDown) && (this.y >= -gameProperties.padding)) {
         this.body.velocity.y = -this.properties.velocity;
-    } else if ((game.state.getCurrentState().keys.key_down.isDown) && (this.y <= game.world.height + gameProperties.padding)) {  //Down  D
+    //down
+    } else if ((game.state.getCurrentState().keys.key_down.isDown) && (this.y <= game.world.height + gameProperties.padding)) {
         this.body.velocity.y = this.properties.velocity;
     } else {
         this.body.velocity.y = 0;
     }
-
-    if ((game.state.getCurrentState().keys.key_right.isDown) && (this.x <= game.world.width + gameProperties.padding)) {        //Right  D
+    //right
+    if ((game.state.getCurrentState().keys.key_right.isDown) && (this.x <= game.world.width + gameProperties.padding)) {
         this.body.velocity.x = this.properties.velocity;
         this.loadTexture(graphicAssets.player.name);
-    } else if ((game.state.getCurrentState().keys.key_left.isDown) && (this.x >= -gameProperties.padding)) {  //Left  A
+    //left
+    } else if ((game.state.getCurrentState().keys.key_left.isDown) && (this.x >= -gameProperties.padding)) {
         this.body.velocity.x = -this.properties.velocity;
         this.loadTexture(graphicAssets.playerAnim.name);
     } else {
         this.body.velocity.x = 0;
     }
-
-    if (game.state.getCurrentState().keys.key_sprint.isDown) {      //shift
+    //shift
+    if (game.state.getCurrentState().keys.key_sprint.isDown) {
         this.properties.velocity = this.properties.velocitySprint;
     } else {
         this.properties.velocity = this.properties.velocityStart;

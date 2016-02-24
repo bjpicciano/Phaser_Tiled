@@ -12,13 +12,13 @@ var Sword = function (game, x, y, key, frame) {
         //the game.time until the next attack can be made
         attackInterval: 0,
         //the delay between attacks. Added to attackInterval
-        attackDelay: 250,
+        attackDelay: 200,
         //the time the sword appears for
         attackLifespan: 200,
         //the distance away from the parent
-        attackDistance: 37,
+        attackDistance: 35,
         //the size of the sword's hitbox
-        hitboxSize: 22,
+        hitboxSize: 24,
         damage: 3,
         //boolean to determine if it can damage another sprite
         canDamage: true,

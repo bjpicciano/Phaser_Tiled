@@ -68,15 +68,11 @@ Level.prototype = {
         //set up tilemap
         this.map = game.add.tilemap(this.tilemap.name);
         
-        //#610B0B - dark red
-        //#585 - light green
-        var saturation = '#333333';
-        initLevelGraphics(this, saturation);
+        initLevelGraphics(this);
     },
     
     initPhysics: function () {
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        // game.physics.startSystem(Phaser.Physics.P2JS);
         
         initLevelPhysics(this);
     },
@@ -103,7 +99,7 @@ Level.prototype = {
     },
 };
 
-function initLevelGraphics (self, saturation) {
+function initLevelGraphics (self) {
     //the first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
     //the second parameter maps this name to the Phaser.Cache key 'tiles'
     self.map.addTilesetImage(graphicAssets.protoTiles.name, graphicAssets.protoTiles.name);
@@ -112,17 +108,11 @@ function initLevelGraphics (self, saturation) {
     self.layer[0] = self.map.createLayer("background");
     
     self.layer[1] = self.map.createLayer("collision");
-    
 
-    
     self.layer[0].resizeWorld();
     
     if (self.debug) {
         self.layer[1].debug = true;
-    }
-    
-    if (saturation != null) {
-        // self.game.stage.backgroundColor = saturation;
     }
 };
 
@@ -140,7 +130,6 @@ function initBackground (self, color) {
 function initLevelPhysics (self) {
     //tilemap physics
     self.map.setCollisionBetween(1, 100, true, 'collision');
-    // self.layer[1].debug = true;
 };
 
 function getRemainingLevels () {
@@ -174,23 +163,24 @@ function initEdge (self, stateData) {
     }
 };
 
-
 function checkBoundaries (self) {
     var sprite = self.player;
     var stateData;
     //move off the left edge
     if (sprite.x + gameProperties.padding < 0) {
         stateData = {
-            spawnX: game.world.width + gameProperties.padding,  //x coord to spawn at in new state
-            spawnY: sprite.y,   //y coord to spawn at in new state
+            spawnX: game.world.width + gameProperties.padding, //x coord to spawn at in new state
+            spawnY: sprite.y, //y coord to spawn at in new state
             edge: 'x', //x or y to determine the new level's edge that will return here
             returnState: game.state.current, //this state to return back to
         }
 
+        //if an edge isn't already initalized, get a random level.
         if (self.edgeLeft == null) {
             self.edgeLeft = getRemainingLevels();
         }
 
+        //check in case we don't have any more levels
         if (self.edgeLeft != null) {
             //param2: clear world data , param3: clear cache data, extra custom data
             game.state.start(self.edgeLeft, true, false, self.keys, stateData, self.player.properties);
@@ -200,8 +190,8 @@ function checkBoundaries (self) {
         stateData = {
             spawnX: -gameProperties.padding,
             spawnY: sprite.y,
-            edge: 'x', //x or y to determine the new level's edge that will return here
-            returnState: game.state.current, //this state to return back to
+            edge: 'x',
+            returnState: game.state.current,
         }
 
         if (self.edgeRight == null) {
@@ -209,7 +199,6 @@ function checkBoundaries (self) {
         }
 
         if (self.edgeRight != null) {
-            //param2: clear world data , param3: clear cache data, extra custom data
             game.state.start(self.edgeRight, true, false, self.keys, stateData, self.player.properties);
         }
     } 
@@ -218,8 +207,8 @@ function checkBoundaries (self) {
         stateData = {
             spawnX: sprite.x,
             spawnY: game.world.height + gameProperties.padding,
-            edge: 'y', //x or y to determine the new level's edge that will return here
-            returnState: game.state.current, //this state to return back to
+            edge: 'y',
+            returnState: game.state.current,
         }
 
         if (self.edgeUp == null) {
@@ -227,7 +216,6 @@ function checkBoundaries (self) {
         }
 
         if (self.edgeUp != null) {
-            //param2: clear world data , param3: clear cache data, extra custom data
             game.state.start(self.edgeUp, true, false, self.keys, stateData, self.player.properties);
         }
     //move off the down edge
@@ -235,8 +223,8 @@ function checkBoundaries (self) {
         stateData = {
             spawnX: sprite.x,
             spawnY: -gameProperties.padding,
-            edge: 'y', //x or y to determine the new level's edge that will return here
-            returnState: game.state.current, //this state to return back to
+            edge: 'y',
+            returnState: game.state.current,
         }
 
         if (self.edgeDown == null) {
@@ -244,7 +232,6 @@ function checkBoundaries (self) {
         }
 
         if (self.edgeDown != null) {
-            //param2: clear world data , param3: clear cache data, extra custom data
             game.state.start(self.edgeDown, true, false, self.keys, stateData, self.player.properties);
         }
     }
