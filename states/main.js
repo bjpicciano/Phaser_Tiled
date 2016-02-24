@@ -24,6 +24,7 @@ mainState.prototype = {
         game.load.image(graphicAssets.sword.name, graphicAssets.sword.URL);
         game.load.image(graphicAssets.skall.name, graphicAssets.skall.URL);
         game.load.image(graphicAssets.fonkey.name, graphicAssets.fonkey.URL);
+        game.load.image(graphicAssets.dandelion.name, graphicAssets.dandelion.URL);
         
         //tilemap
         game.load.image(graphicAssets.protoTiles.name, graphicAssets.protoTiles.URL);
@@ -49,8 +50,8 @@ mainState.prototype = {
         this.scale.pageAlignVertically = true;
         initKeyboard(this);
         
-        // game.input.onDown.addOnce(this.startGame, this);
-        this.startGame();
+        game.input.onDown.addOnce(this.startGame, this);
+        // this.startGame();
     },
     
     startGame: function () {

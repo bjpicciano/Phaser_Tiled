@@ -104,6 +104,13 @@ Player.prototype.takeDamage = function (damage) {
     }
 };
 
+Player.prototype.takeHeal = function (health) {
+    this.properties.health += health;
+    
+    if (this.properties.health > this.properties.healthMax) {
+        this.properties.health = this.properties.healthMax;
+    }
+}
 function initKeyboard (self) {
     self.keys.key_left = game.input.keyboard.addKey(Phaser.Keyboard.A);
     self.keys.key_right = game.input.keyboard.addKey(Phaser.Keyboard.D);

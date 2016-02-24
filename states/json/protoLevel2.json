@@ -6,7 +6,7 @@
          "name":"background",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":100,
          "x":0,
          "y":0
@@ -17,7 +17,163 @@
          "name":"collision",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
+         "width":100,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":100,
+         "name":"item",
+         "objects":[
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":33,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1472,
+                 "y":1248
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":35,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1344,
+                 "y":1216
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":36,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1056,
+                 "y":1600
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":37,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2496,
+                 "y":1312
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":39,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2560,
+                 "y":1440
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":40,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2368,
+                 "y":1280
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":42,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2400,
+                 "y":1376
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":43,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2560,
+                 "y":1280
+                }, 
+                {
+                 "gid":21,
+                 "height":32,
+                 "id":45,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1408,
+                 "y":1152
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
          "width":100,
          "x":0,
          "y":0
@@ -408,12 +564,12 @@
          "name":"above",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":100,
          "x":0,
          "y":0
         }],
- "nextobjectid":31,
+ "nextobjectid":46,
  "orientation":"orthogonal",
  "properties":
     {

@@ -44,10 +44,10 @@ var graphicAssets = {
     brick: {URL:'assets/brick.png', name:'brick'},
     skall: {URL:'assets/skall.png', name:'skall'},
     fonkey: {URL:'assets/fonkey.png', name:'fonkey'},
+    dandelion: {URL:'assets/dandelion.png', name:'dandelion'},
     
     //tilemaps
     protoTiles: {URL:'assets/protoTiles.png', name:'protoTiles'},
-    small: {URL:'states/json/1b.json', name:'smallMap'},
     level1: {URL:'states/json/protoLevel.json', name:'level1'},
     level2: {URL:'states/json/protoLevel2.json', name:'level2'},
     level3: {URL:'states/json/protoLevel3.json', name:'level3'},

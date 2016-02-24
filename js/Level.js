@@ -3,6 +3,7 @@ function Level (game, tilemap, color, debug) {
     if (color != undefined) { this.color = color; }
     
     this.enemies;
+    this.items;
     
     this.player;
     this.playerProperties;
@@ -50,10 +51,12 @@ Level.prototype = {
         this.initPhysics();
         this.initEntities();
         this.initBackground();
+        // game.time.advancedTiming = true;
     },
     
     update: function () {
         this.checkBoundaries();
+        // console.log(game.time.fps)
     },
     
     collision: function (hitter, hitee) {
@@ -74,7 +77,6 @@ Level.prototype = {
         this.layer[1] = this.map.createLayer("collision");
 
         this.layer[0].resizeWorld();
-        this.checkMapBoundsOnEdges();
 
         if (this.debug) {
             this.layer[1].debug = true;
@@ -87,10 +89,12 @@ Level.prototype = {
     },
     
     initEntities: function () {
-        this.enemies = game.add.group();
-        
+        this.items = game.add.group();
+        this.map.createFromObjects('item', 21, graphicAssets.dandelion.name, 0, true, false, this.items, Food);
+         
         initPlayer(this, this.spawnX, this.spawnY, this.playerProperties);
         
+        this.enemies = game.add.group();
         this.map.createFromObjects('sprite', 5, graphicAssets.skall.name, 0, true, false, this.enemies, Skall);
         this.map.createFromObjects('sprite', 15, graphicAssets.fonkey.name, 0, true, false, this.enemies, Skall);
     },
@@ -122,18 +126,6 @@ Level.prototype = {
             } else {
                 this.edgeDown = stateData.returnState;
             }
-        }
-    },
-    
-    checkMapBoundsOnEdges: function () {
-        if (this.spawnX > game.world.width - gameProperties.padding) {
-            this.spawnX = game.world.width - 2*gameProperties.padding
-            console.log("x: " + this.spawnX)
-        }
-        
-        if (this.spawnY > game.world.height - gameProperties.padding) {
-            this.spawnY = game.world.height - 2*gameProperties.padding
-            console.log("y: " + this.spawnY)
         }
     },
     

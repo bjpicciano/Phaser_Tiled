@@ -6,13 +6,13 @@ var Skall = function (game, x, y, key, frame) {
 
     //call the Phaser.Sprite passing in the game reference
     Phaser.Sprite.call(this, game, x, y, key);
-    this.anchor.setTo(0.5, 0.5);
+    // this.anchor.setTo(0.5, 0.5);
 
     this.properties = {
         startX: x,
         startY: y,
         velocityWalk: 60,
-        velocityCharge: 310 + game.rnd.integerInRange(-50, 25),
+        velocityCharge: 310 + game.rnd.integerInRange(-50, 40),
         velocity: 100 + game.rnd.integerInRange(-15, 15),
         fov: 250 + game.rnd.integerInRange(-50, 25),
         leapFov: 75 + game.rnd.integerInRange(-40, 25),
