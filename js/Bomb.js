@@ -76,6 +76,7 @@ Bomb.prototype.appear = function (angleToPointer) {
 };
 
 Bomb.prototype.disappear = function () {
+    game.physics.arcade.overlap(this, game.state.getCurrentState().destructables, this.damage, null, this);
     game.physics.arcade.overlap(this, game.state.getCurrentState().enemies, this.damage, null, this);
     game.physics.arcade.overlap(this, game.state.getCurrentState().player, this.damage, null, this);
     

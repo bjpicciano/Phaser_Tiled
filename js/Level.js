@@ -4,6 +4,7 @@ function Level (game, tilemap, color, debug) {
     
     this.enemies;
     this.items;
+    this.destructables;
     
     this.player;
     this.playerProperties;
@@ -98,6 +99,9 @@ Level.prototype = {
     },
     
     initEntities: function () {
+        this.destructables = game.add.group();
+        this.map.createFromObjects('destructable', 12, graphicAssets.brick.name, 0, true, false, this.destructables, Destructable);
+        
         this.items = game.add.group();
         this.map.createFromObjects('item', 21, graphicAssets.dandelion.name, 0, true, false, this.items, Food);
          
