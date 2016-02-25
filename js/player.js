@@ -91,15 +91,9 @@ Player.prototype.takeDamage = function (damage) {
     this.properties.health -= damage;
         
     if (this.properties.health <= 0) {
-
-        var startState = game.state.states[states.start];
-        
-        startState.spawnX = undefined;
-        startState.spawnY = undefined;
-        startState.playerProperties = undefined;
+        resetNextStateSpawns(states.start)
         
         this.kill();
-        
         game.time.events.add(this.properties.deathTime, function () { game.state.start(states.start, true); }, this);
     }
 };

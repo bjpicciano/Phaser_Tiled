@@ -15,24 +15,10 @@ mainState.prototype = {
     
     preload: function () {
         //sprite
-        game.load.image(graphicAssets.main.name, graphicAssets.main.URL);
-        game.load.image(graphicAssets.background.name, graphicAssets.background.URL);
-        game.load.image(graphicAssets.player.name, graphicAssets.player.URL);
-        game.load.image(graphicAssets.playerAnim.name, graphicAssets.playerAnim.URL);
-        game.load.image(graphicAssets.healthbar.name, graphicAssets.healthbar.URL);   
-        game.load.image(graphicAssets.tree.name, graphicAssets.tree.URL);
-        game.load.image(graphicAssets.sword.name, graphicAssets.sword.URL);
-        game.load.image(graphicAssets.skall.name, graphicAssets.skall.URL);
-        game.load.image(graphicAssets.fonkey.name, graphicAssets.fonkey.URL);
-        game.load.image(graphicAssets.dandelion.name, graphicAssets.dandelion.URL);
-        
-        //tilemap
-        game.load.image(graphicAssets.protoTiles.name, graphicAssets.protoTiles.URL);
-    },
-    
-    init: function () {
-        // var restartInstructions = 'click to restart';
-        // this.tf_start = game.add.text(game.world.centerX, game.world.centerY, restartInstructions, fontAssets.counterFontStyle);
+        for (var obj in graphicAssets) {
+            var asset = graphicAssets[obj];
+            game.load.image(asset.name, asset.URL);
+        }
     },
     
     create: function () {
@@ -50,8 +36,8 @@ mainState.prototype = {
         this.scale.pageAlignVertically = true;
         initKeyboard(this);
         
-        game.input.onDown.addOnce(this.startGame, this);
-        // this.startGame();
+        // game.input.onDown.addOnce(this.startGame, this);
+        this.startGame();
     },
     
     startGame: function () {
@@ -64,4 +50,4 @@ mainState.prototype = {
     },
 };
 
-game.state.add(states.main, mainState);
+game.state.add("main", mainState);

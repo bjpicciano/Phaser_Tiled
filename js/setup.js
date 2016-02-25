@@ -9,21 +9,9 @@ var gameProperties = {
 
 var states = {
     start: undefined,
-    main: "main",
-    level1: "level1",
-    level2: "level2",
-    level3: "level3",
-    level4: "level4",
-    level5: "level5",
-    level6: "level6",
-    level7: "level7",
-    level8: "level8",
-    level9: "level9",
-    level10: "level10",
-    level11: "level11",
-    level12: "level12",
     
-    levels: [],
+    firstLevels: undefined,
+    secondLevels: undefined,
 };
 
 var color = {
@@ -45,13 +33,19 @@ var graphicAssets = {
     skall: {URL:'assets/skall.png', name:'skall'},
     fonkey: {URL:'assets/fonkey.png', name:'fonkey'},
     dandelion: {URL:'assets/dandelion.png', name:'dandelion'},
-    
-    //tilemaps
     protoTiles: {URL:'assets/protoTiles.png', name:'protoTiles'},
-    level1: {URL:'states/json/protoLevel.json', name:'level1'},
-    level2: {URL:'states/json/protoLevel2.json', name:'level2'},
-    level3: {URL:'states/json/protoLevel3.json', name:'level3'},
 };
+
+var firstMapAssets = {
+    // forest1: {URL:'states/json/protoLevel.json', name:'forest1'},
+    // house: {URL:'states/json/protoLevel2.json', name:'house'},
+    arena: {URL:'states/json/protoLevel3.json', name:'arena'},
+    gateTransition: {URL:'states/json/gateTransition.json', name:'gateTransition'},
+};
+
+var secondMapAssets = {
+    medium1: {URL:'states/json/medium1.json', name:'medium1'},
+}
 
 var fontAssets = {
     counterFontStyle:{font: '20px Arial', fill: '#FFFFFF', align: 'center'},
