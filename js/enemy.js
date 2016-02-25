@@ -66,20 +66,24 @@ Skall.prototype.roam = function () {
     if (this.isWithin(this.properties.fov, this.player)) {
         this.pursue();
     } else {
+        //if it doesn't have a destination points, grab a random integer within 500
         if (this.xp == undefined && this.yp == undefined) {
             var x = this.x + game.rnd.integerInRange(-500, 500);
             var y = this.y + game.rnd.integerInRange(-500, 500);
             
+            //checks to see if it's in the world's bounds
             if ((x >= 0 && y >= 0) && (x <= game.world.width && y <= game.world.height)) {
                 this.xp = x;
                 this.yp = y;
             };
         }
 
+        //if we have destination points, move to it
         if (this.xp && this.yp) {
             game.physics.arcade.moveToXY(this, this.xp, this.yp, this.properties.velocityWalk);
         }
         
+        //if we're within 10, find somewhere else to go
         if (game.physics.arcade.distanceToXY(this, this.xp, this.yp) <= 10) {
             this.xp = undefined;
             this.yp = undefined;

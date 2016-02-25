@@ -28,6 +28,7 @@ var graphicAssets = {
     playerAnim: {URL:'assets/playerAnim.png', name:'playerAnim'},
     healthbar: {URL:'assets/healthbar.png', name:'healthbar'},
     sword: {URL:'assets/sword.png', name:'sword'},
+    bomb: {URL:'assets/bomb.png', name:'bomb'},
     tree: {URL:'assets/tree.png', name:'tree'},
     brick: {URL:'assets/brick.png', name:'brick'},
     skall: {URL:'assets/skall.png', name:'skall'},
@@ -37,8 +38,8 @@ var graphicAssets = {
 };
 
 var firstMapAssets = {
-    // forest1: {URL:'states/json/protoLevel.json', name:'forest1'},
-    // house: {URL:'states/json/protoLevel2.json', name:'house'},
+    forest1: {URL:'states/json/protoLevel.json', name:'forest1'},
+    house: {URL:'states/json/protoLevel2.json', name:'house'},
     arena: {URL:'states/json/protoLevel3.json', name:'arena'},
     gateTransition: {URL:'states/json/gateTransition.json', name:'gateTransition'},
 };

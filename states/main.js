@@ -3,12 +3,7 @@ var mainState = function(game){
     
     this.image;
     
-    this.keys = {
-        key_up: null,
-        key_down: null,
-        key_left: null,
-        key_right: null,
-    }
+    this.keys = {};
 };
 
 mainState.prototype = {
@@ -36,8 +31,8 @@ mainState.prototype = {
         this.scale.pageAlignVertically = true;
         initKeyboard(this);
         
-        // game.input.onDown.addOnce(this.startGame, this);
-        this.startGame();
+        game.input.onDown.addOnce(this.startGame, this);
+        // this.startGame();
     },
     
     startGame: function () {

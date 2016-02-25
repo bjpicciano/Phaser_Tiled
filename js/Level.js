@@ -40,6 +40,7 @@ Level.prototype = {
             game.debug.spriteInfo(this.player.swordSprite, 32, 32);
             game.debug.body(this.player);
             game.debug.body(this.player.swordSprite);
+            game.debug.body(this.player.bombSprite);
             
             this.enemies.forEachAlive(function (member) {
                 game.debug.body(member);

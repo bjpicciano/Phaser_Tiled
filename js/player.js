@@ -10,6 +10,8 @@ var Player = function (game, x, y, key, frame) {
     this.swordSprite = new Sword(game, 0, 0, undefined, undefined);
     this.addChild(this.swordSprite);
     
+    this.bombSprite = new Bomb(game, 0, 0, undefined, undefined);
+    
     game.camera.follow(this);
     
     this.properties = {
@@ -32,7 +34,7 @@ var Player = function (game, x, y, key, frame) {
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
     
-    game.input.onDown.add(this.attack, this);
+    game.input.onDown.add(this.swordSprite.attack, this);
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -75,15 +77,9 @@ Player.prototype.checkPlayerInput = function () {
     } else {
         this.properties.velocity = this.properties.velocityStart;
     }
-};
-
-Player.prototype.attack = function (destinationSprite, speed) {
-    if (game.time.now > this.swordSprite.properties.attackInterval) {
-        var angleToPointer = game.physics.arcade.angleToPointer(this);
-
-        this.swordSprite.appear(angleToPointer);
-
-        this.swordSprite.properties.attackInterval = game.time.now + this.swordSprite.properties.attackDelay;
+    //X
+    if (game.state.getCurrentState().keys.key_x.isDown) {
+        this.bombSprite.attack();
     }
 };
 
@@ -105,6 +101,7 @@ Player.prototype.takeHeal = function (health) {
         this.properties.health = this.properties.healthMax;
     }
 }
+
 function initKeyboard (self) {
     self.keys.key_left = game.input.keyboard.addKey(Phaser.Keyboard.A);
     self.keys.key_right = game.input.keyboard.addKey(Phaser.Keyboard.D);
@@ -112,6 +109,7 @@ function initKeyboard (self) {
     self.keys.key_down = game.input.keyboard.addKey(Phaser.Keyboard.S);
     self.keys.key_sprint = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
     self.keys.key_control = game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
+    self.keys.key_x = game.input.keyboard.addKey(Phaser.Keyboard.X);
     self.keys.key_attack = game.input.activePointer;
     
     game.input.resetLocked = true;

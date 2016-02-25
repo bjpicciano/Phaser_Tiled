@@ -36,7 +36,20 @@ Sword.prototype.update = function () {
     game.physics.arcade.overlap(this, game.state.getCurrentState().enemies, this.damage, null, this);
 };
 
+//the player calls this and makes THIS the player for some reason
+Sword.prototype.attack = function () {
+    if (game.time.now > this.swordSprite.properties.attackInterval) {
+        var player = game.state.getCurrentState().player;
+        var angleToPointer = game.physics.arcade.angleToPointer(player);
+
+        this.swordSprite.appear(angleToPointer);
+
+        this.swordSprite.properties.attackInterval = game.time.now + this.swordSprite.properties.attackDelay;
+    }
+}
+
 Sword.prototype.appear = function (angleToPointer) {
+    var player = game.state.getCurrentState().player;
     var x = Math.cos(angleToPointer) * this.properties.attackDistance;
     var y = Math.sin(angleToPointer) * this.properties.attackDistance;
     
