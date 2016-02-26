@@ -33,6 +33,7 @@ var graphicAssets = {
     bomb: {URL:'assets/bomb.png', name:'bomb'},
     tree: {URL:'assets/tree.png', name:'tree'},
     brick: {URL:'assets/brick.png', name:'brick'},
+    destructableBrick: {URL:'assets/destructableBrick.png', name:'destructableBrick'},
     skall: {URL:'assets/skall.png', name:'skall'},
     fonkey: {URL:'assets/fonkey.png', name:'fonkey'},
     dandelion: {URL:'assets/dandelion.png', name:'dandelion'},
@@ -40,9 +41,9 @@ var graphicAssets = {
 };
 
 var firstMapAssets = {
-    forest1: {URL:'states/json/protoLevel.json', name:'forest1'},
-    house: {URL:'states/json/protoLevel2.json', name:'house'},
-    arena: {URL:'states/json/protoLevel3.json', name:'arena'},
+    // forest1: {URL:'states/json/protoLevel.json', name:'forest1'},
+    // house: {URL:'states/json/protoLevel2.json', name:'house'},
+    // arena: {URL:'states/json/protoLevel3.json', name:'arena'},
     gateTransition: {URL:'states/json/gateTransition.json', name:'gateTransition'},
 };
 

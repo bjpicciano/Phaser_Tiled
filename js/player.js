@@ -92,7 +92,7 @@ Player.prototype.checkPlayerInput = function () {
         this.properties.velocity = this.properties.velocityStart;
     }
     //attack
-    if (game.state.getCurrentState().keys.key_attack.isDown) {
+    if (game.state.getCurrentState().keys.key_attack.isDown && this.switches.key_attack) {
         this.switches.key_attack = false;
         this.weapon.attack();
     } if (game.state.getCurrentState().keys.key_attack.isUp) {
@@ -145,6 +145,7 @@ Player.prototype.switchWeapons = function () {
         this.weapon.appear(angle);
 
         this.properties.switchInterval = game.time.now + this.properties.switchDelay;
+        this.weapon.properties.attackInterval = game.time.now + this.weapon.properties.attackDelay;
     }
 }
 
@@ -158,7 +159,7 @@ function initKeyboard (self) {
     self.keys.key_x = game.input.keyboard.addKey(Phaser.Keyboard.X);
     self.keys.key_use = game.input.keyboard.addKey(Phaser.Keyboard.E);
     self.keys.key_q = game.input.keyboard.addKey(Phaser.Keyboard.Q);
-    self.keys.key_attack = game.input.activePointer;
+    self.keys.key_attack = game.input.activePointer.leftButton;
     
     
     game.input.resetLocked = true;
