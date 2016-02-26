@@ -9,6 +9,7 @@ var Sword = function (game, x, y, key, frame) {
     this.kill()
     
     this.properties = {
+        name: "sword",
         //the game.time until the next attack can be made
         attackInterval: 0,
         //the delay between attacks. Added to attackInterval
@@ -43,6 +44,7 @@ Sword.prototype.attack = function () {
         var angleToPointer = game.physics.arcade.angleToPointer(player);
 
         this.appear(angleToPointer);
+        this.fire()
 
         this.properties.attackInterval = game.time.now + this.properties.attackDelay;
     }
@@ -55,17 +57,18 @@ Sword.prototype.appear = function (angleToPointer) {
     this.reset(x, y);
 
     this.rotation = angleToPointer;
-    
+    game.time.events.add(this.properties.attackLifespan, this.disappear, this);
+};
+
+Sword.prototype.fire = function () {
     game.physics.enable(this, Phaser.Physics.ARCADE);
     
     this.body.setSize(this.properties.hitboxSize, this.properties.hitboxSize, 0);
-    
-    game.time.events.add(this.properties.attackLifespan, this.disappear, this);
+    game.time.events.add(this.properties.attackLifespan, function () {this.body.destroy()}, this);
 };
 
 Sword.prototype.disappear = function () {
     this.kill();
-    this.body.destroy();
 };
 
 Sword.prototype.damage = function (hitter, hitee) {

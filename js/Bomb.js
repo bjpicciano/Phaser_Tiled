@@ -8,6 +8,7 @@ var Bomb = function (game, x, y, key, frame) {
     this.anchor.setTo(0.5, 0.5);
     
     this.properties = {
+        name: "bomb",
         //the game.time until the next attack can be made
         attackInterval: 0,
         //the delay between attacks. Added to attackInterval
@@ -53,11 +54,16 @@ Bomb.prototype.update = function () {
 Bomb.prototype.attack = function () {
     if (game.time.now > this.properties.attackInterval) {
         var player = game.state.getCurrentState().player;
-        var angleToPointer = game.physics.arcade.angleToPointer(player);
+        
+        if (player.properties.bombCount > 0) {
+            player.properties.bombCount -= 1;
+            
+            var angleToPointer = game.physics.arcade.angleToPointer(player);
 
-        this.appear(angleToPointer);
+            this.appear(angleToPointer);
 
-        this.properties.attackInterval = game.time.now + this.properties.attackDelay;
+            this.properties.attackInterval = game.time.now + this.properties.attackDelay;
+        }
     }
 }
 

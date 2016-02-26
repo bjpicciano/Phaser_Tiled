@@ -9,6 +9,7 @@ var Bow = function (game, x, y, key, frame) {
     this.kill()
     
     this.properties = {
+        name: "bow",
         //the game.time until the next attack can be made
         attackInterval: 0,
         //the delay between attacks. Added to attackInterval
@@ -19,9 +20,7 @@ var Bow = function (game, x, y, key, frame) {
         velocity: 600,
         //the distance away from the parent
         distanceFrom: 25,
-
         damage: 3,
-        
     };
     
     this.arrowGroup = game.add.group();
@@ -51,12 +50,17 @@ Bow.prototype.update = function () {
 Bow.prototype.attack = function () {
     if (game.time.now > this.properties.attackInterval) {
         var player = game.state.getCurrentState().player;
-        var angleToPointer = game.physics.arcade.angleToPointer(player);
+        
+        if (player.properties.arrowCount > 0) {
+            player.properties.arrowCount -= 1;
+            
+            var angleToPointer = game.physics.arcade.angleToPointer(player);
 
-        this.appear(angleToPointer);
-        this.fire(angleToPointer);
+            this.appear(angleToPointer);
+            this.fire(angleToPointer);
 
-        this.properties.attackInterval = game.time.now + this.properties.attackDelay;
+            this.properties.attackInterval = game.time.now + this.properties.attackDelay;
+        }
     }
 }
 
@@ -108,6 +112,33 @@ Bow.prototype.pickUp = function (hitter, hitee) {
     player.addChild(this);
 };
 
-// Bow.prototype.killArrow = function (hitter, hitee) {
-//     hitter.kill();
-// }
+var Arrow = function (game, x, y, key, frame) {
+    if (x == undefined) { x = 0; }
+    if (y == undefined) { y = 0; }
+    if (key == undefined) { key = graphicAssets.arrow.name; }
+    
+    //call the Phaser.Sprite passing in the game reference
+    Phaser.Sprite.call(this, game, x, y, key);
+    this.anchor.setTo(0.5, 0.5);
+
+    game.add.existing(this);
+    
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+};
+
+Arrow.prototype = Object.create(Phaser.Sprite.prototype);
+Arrow.prototype.constructor = Arrow;
+
+Arrow.prototype.update = function () {
+    this.pickUp();
+};
+
+Arrow.prototype.pickUp = function () {
+    var player = game.state.getCurrentState().player;
+    game.physics.arcade.overlap(this, player, this.addArrow, null, this);
+}
+
+Arrow.prototype.addArrow = function (hitter, hitee) {
+    hitee.properties.arrowCount += 1;
+    this.destroy();
+};

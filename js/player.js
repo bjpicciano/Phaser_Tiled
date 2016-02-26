@@ -26,6 +26,8 @@ var Player = function (game, x, y, key, frame) {
     };
     
     this.properties = {
+        bombCount: 5,
+        arrowCount: 5,
         velocityStart: 235,
         velocitySprint: 350,
         velocity: undefined,
@@ -134,7 +136,9 @@ Player.prototype.switchWeapons = function () {
     }
 
     this.weapon = this.weaponList[index];
-    console.log(this.weapon);
+    
+    var angle;// = game.physics.arcade.angleToPointer(this);
+    this.weapon.appear(angle);
 }
 
 function initKeyboard (self) {
