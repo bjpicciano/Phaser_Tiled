@@ -21,11 +21,17 @@ var Bomb = function (game, x, y, key, frame) {
         damage: 5,
     };
     
+    this.hitbox = new Hitbox(game, 0, 0, undefined, undefined);
+    this.hitbox.body.setSize(this.properties.hitboxSize, this.properties.hitboxSize, 0);
+    this.addChild(this.hitbox);
+    
     this.disapearTimer = undefined;
     
     this.destinationPoints = undefined;
  
     game.add.existing(this);
+    
+    game.physics.enable(this, Phaser.Physics.ARCADE);
 };
 
 Bomb.prototype = Object.create(Phaser.Sprite.prototype);
@@ -33,6 +39,7 @@ Bomb.prototype.constructor = Bomb;
 
 Bomb.prototype.update = function () {
     game.physics.arcade.collide(this, game.state.getCurrentState().layer[1]);
+    game.physics.arcade.collide(this, game.state.getCurrentState().destructables);
     
     //blows the bomb at your cursor
     if (this.destinationPoints != undefined) {
@@ -66,9 +73,6 @@ Bomb.prototype.appear = function (angleToPointer) {
     };
     
     this.reset(player.x, player.y);
-
-    game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.body.setSize(this.properties.hitboxSize, this.properties.hitboxSize, 0);
     
     game.physics.arcade.moveToPointer(this, this.properties.velocity)
     
@@ -76,15 +80,31 @@ Bomb.prototype.appear = function (angleToPointer) {
 };
 
 Bomb.prototype.disappear = function () {
-    game.physics.arcade.overlap(this, game.state.getCurrentState().destructables, this.damage, null, this);
-    game.physics.arcade.overlap(this, game.state.getCurrentState().enemies, this.damage, null, this);
-    game.physics.arcade.overlap(this, game.state.getCurrentState().player, this.damage, null, this);
+    game.physics.arcade.overlap(this.hitbox, game.state.getCurrentState().destructables, this.damage, null, this);
+    game.physics.arcade.overlap(this.hitbox, game.state.getCurrentState().enemies, this.damage, null, this);
+    game.physics.arcade.overlap(this.hitbox, game.state.getCurrentState().player, this.damage, null, this);
     
     this.destinationPoints = undefined;
     this.kill();
-    this.body.destroy();
 };
 
 Bomb.prototype.damage = function (hitter, hitee) {
     hitee.takeDamage(this.properties.damage);
 };
+
+var Hitbox = function (game, x, y, key, frame) {
+    if (x == undefined) { x = 0; }
+    if (y == undefined) { y = 0; }
+    key = undefined;
+    
+    //call the Phaser.Sprite passing in the game reference
+    Phaser.Sprite.call(this, game, x, y, key);
+    this.anchor.setTo(0.5, 0.5);
+ 
+    game.add.existing(this);
+    
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+};
+
+Hitbox.prototype = Object.create(Phaser.Sprite.prototype);
+Hitbox.prototype.constructor = Hitbox;

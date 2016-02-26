@@ -77,6 +77,10 @@ Player.prototype.checkPlayerInput = function () {
     } else {
         this.properties.velocity = this.properties.velocityStart;
     }
+    //E
+    if (game.state.getCurrentState().keys.key_use.isDown) {
+        // console.log("pickup");
+    }
     //X
     if (game.state.getCurrentState().keys.key_x.isDown) {
         this.bombSprite.attack();
@@ -110,6 +114,7 @@ function initKeyboard (self) {
     self.keys.key_sprint = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
     self.keys.key_control = game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
     self.keys.key_x = game.input.keyboard.addKey(Phaser.Keyboard.X);
+    self.keys.key_use = game.input.keyboard.addKey(Phaser.Keyboard.E);
     self.keys.key_attack = game.input.activePointer;
     
     game.input.resetLocked = true;
