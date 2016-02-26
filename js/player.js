@@ -26,8 +26,8 @@ var Player = function (game, x, y, key, frame) {
     };
     
     this.properties = {
-        bombCount: 5,
-        arrowCount: 5,
+        bombCount: 1,
+        arrowCount: 3,
         velocityStart: 235,
         velocitySprint: 350,
         velocity: undefined,

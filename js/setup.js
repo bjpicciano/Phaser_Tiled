@@ -41,14 +41,15 @@ var graphicAssets = {
 };
 
 var firstMapAssets = {
-    // forest1: {URL:'states/json/protoLevel.json', name:'forest1'},
-    // house: {URL:'states/json/protoLevel2.json', name:'house'},
-    // arena: {URL:'states/json/protoLevel3.json', name:'arena'},
+    forest1: {URL:'states/json/protoLevel.json', name:'forest1'},
+    house: {URL:'states/json/protoLevel2.json', name:'house'},
+    arena: {URL:'states/json/protoLevel3.json', name:'arena'},
     gateTransition: {URL:'states/json/gateTransition.json', name:'gateTransition'},
 };
 
 var secondMapAssets = {
     medium1: {URL:'states/json/medium1.json', name:'medium1'},
+    medium2: {URL:'states/json/medium2.json', name:'medium2'},
 }
 
 var fontAssets = {
