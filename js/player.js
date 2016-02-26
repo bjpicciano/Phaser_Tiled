@@ -7,7 +7,7 @@ var Player = function (game, x, y, key, frame) {
     Phaser.Sprite.call(this, game, x, y, key);
     this.anchor.setTo(0.5, 0.5);
     
-    this.swordSprite = new Sword(game, 0, 0, undefined, undefined);
+    this.swordSprite = new Bow(game, 0, 0, undefined, undefined);
     this.addChild(this.swordSprite);
     
     this.bombSprite = new Bomb(game, 0, 0, undefined, undefined);

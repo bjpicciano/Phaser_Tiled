@@ -16,7 +16,7 @@ var Sword = function (game, x, y, key, frame) {
         //the time the sword appears for
         attackLifespan: 200,
         //the distance away from the parent
-        attackDistance: 35,
+        distanceFrom: 35,
         //the size of the sword's hitbox
         hitboxSize: 24,
         damage: 3,
@@ -49,9 +49,8 @@ Sword.prototype.attack = function () {
 }
 
 Sword.prototype.appear = function (angleToPointer) {
-    var player = game.state.getCurrentState().player;
-    var x = Math.cos(angleToPointer) * this.properties.attackDistance;
-    var y = Math.sin(angleToPointer) * this.properties.attackDistance;
+    var x = Math.cos(angleToPointer) * this.properties.distanceFrom;
+    var y = Math.sin(angleToPointer) * this.properties.distanceFrom;
     
     this.reset(x, y);
 

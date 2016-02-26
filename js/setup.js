@@ -28,6 +28,8 @@ var graphicAssets = {
     playerAnim: {URL:'assets/playerAnim.png', name:'playerAnim'},
     healthbar: {URL:'assets/healthbar.png', name:'healthbar'},
     sword: {URL:'assets/sword.png', name:'sword'},
+    bow: {URL:'assets/bow.png', name:'bow'},
+    arrow: {URL:'assets/arrow.png', name:'arrow'},
     bomb: {URL:'assets/bomb.png', name:'bomb'},
     tree: {URL:'assets/tree.png', name:'tree'},
     brick: {URL:'assets/brick.png', name:'brick'},

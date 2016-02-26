@@ -1,7 +1,7 @@
 var Bow = function (game, x, y, key, frame) {
     if (x == undefined) { x = 0; }
     if (y == undefined) { y = 0; }
-    if (key == undefined) { key = graphicAssets.sword.name; }
+    if (key == undefined) { key = graphicAssets.bow.name; }
     
     //call the Phaser.Sprite passing in the game reference
     Phaser.Sprite.call(this, game, x, y, key);
@@ -12,19 +12,23 @@ var Bow = function (game, x, y, key, frame) {
         //the game.time until the next attack can be made
         attackInterval: 0,
         //the delay between attacks. Added to attackInterval
-        attackDelay: 200,
+        attackDelay: 300,
         //the time the sword appears for
-        attackLifespan: 200,
+        attackLifespan: 300,
+        arrowLifespan: 800,
+        velocity: 600,
         //the distance away from the parent
-        attackDistance: 35,
-        //the size of the sword's hitbox
-        hitboxSize: 24,
+        distanceFrom: 25,
+
         damage: 3,
-        //boolean to determine if it can damage another sprite
-        canDamage: true,
-        //time until it can deal damage again
-        canDamageTimer: 200,
     };
+    
+    this.arrowGroup = game.add.group();
+    this.arrowGroup.enableBody = true;
+    this.arrowGroup.physicsBodyType = Phaser.Physics.ARCADE;
+    this.arrowGroup.createMultiple(5, graphicAssets.arrow.name);
+    this.arrowGroup.setAll('anchor.x', 0.5);
+    this.arrowGroup.setAll('anchor.y', 0.5);
  
     game.add.existing(this);
 };
@@ -33,7 +37,9 @@ Bow.prototype = Object.create(Phaser.Sprite.prototype);
 Bow.prototype.constructor = Bow;
 
 Bow.prototype.update = function () {
-    game.physics.arcade.overlap(this, game.state.getCurrentState().enemies, this.damage, null, this);
+    game.physics.arcade.overlap(this.arrowGroup, game.state.getCurrentState().enemies, this.damage, null, this);
+    game.physics.arcade.overlap(this.arrowGroup, game.state.getCurrentState().destructables, this.killArrow, null, this);
+    game.physics.arcade.collide(this.arrowGroup, game.state.getCurrentState().layer[1]);
 };
 
 //the player calls this and makes THIS the player for some reason
@@ -49,32 +55,44 @@ Bow.prototype.attack = function () {
 }
 
 Bow.prototype.appear = function (angleToPointer) {
-    var player = game.state.getCurrentState().player;
-    var x = Math.cos(angleToPointer) * this.properties.attackDistance;
-    var y = Math.sin(angleToPointer) * this.properties.attackDistance;
+    var x = Math.cos(angleToPointer) * this.properties.distanceFrom;
+    var y = Math.sin(angleToPointer) * this.properties.distanceFrom;
     
     this.reset(x, y);
-
+    
     this.rotation = angleToPointer;
-    
-    game.physics.enable(this, Phaser.Physics.ARCADE);
-    
-    this.body.setSize(this.properties.hitboxSize, this.properties.hitboxSize, 0);
+
+    this.fire(angleToPointer);
     
     game.time.events.add(this.properties.attackLifespan, this.disappear, this);
 };
 
+Bow.prototype.fire = function (angleToPointer) {  
+    var arrow = this.arrowGroup.getFirstExists(false);
+
+    if (arrow) {
+        var player = game.state.getCurrentState().player
+        var x = this.x + player.x;
+        var y = this.y + player.y;
+        
+        arrow.reset(x, y);
+        arrow.rotation = angleToPointer;
+        arrow.lifespan = this.properties.arrowLifespan;
+        
+        game.physics.arcade.moveToPointer(arrow, this.properties.velocity);
+    }
+};
+
+
 Bow.prototype.disappear = function () {
     this.kill();
-    this.body.destroy();
 };
 
 Bow.prototype.damage = function (hitter, hitee) {
-    if (this.properties.canDamage) {
-        this.properties.canDamage = false;
-        
-        hitee.takeDamage(this.properties.damage);
-        
-        game.time.events.add(this.properties.canDamageTimer, function () { this.properties.canDamage = true }, this);
-    }
+    hitter.kill();
+    hitee.takeDamage(this.properties.damage);
 };
+
+Bow.prototype.killArrow = function (hitter, hitee) {
+    hitter.kill();
+}
