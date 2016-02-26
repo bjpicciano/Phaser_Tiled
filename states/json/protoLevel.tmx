@@ -367,4 +367,5 @@
 </data>
  </layer>
  <objectgroup name="zone"/>
+ <objectgroup name="destructable"/>
 </map>

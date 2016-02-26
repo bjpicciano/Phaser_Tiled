@@ -1,7 +1,7 @@
 //create the levels from the premade tilemaps
 // var randomColor = Math.random() * 0xffffff;
 
-var debug = false;
+var debug = true;
 
 //load all the first tilemaps. Adds them to states.firstLevels
 for (var mapKey in firstMapAssets) {

@@ -327,4 +327,5 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="destructable"/>
 </map>

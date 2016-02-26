@@ -36,6 +36,8 @@ var Player = function (game, x, y, key, frame) {
         healthMax: 10,
         health: undefined,
         canTakeDamage: true,
+        switchInterval: 0,
+        switchDelay: 200,
     };
     this.properties.health = this.properties.healthMax;
 
@@ -128,17 +130,21 @@ Player.prototype.takeHeal = function (health) {
 }
 
 Player.prototype.switchWeapons = function () {
-    var index = this.weaponList.indexOf(this.weapon)
-    if (index >= this.weaponList.length - 1) {
-        index = 0;
-    } else {
-        index++;
-    }
+    if (game.time.now > this.properties.switchInterval) {
+        var index = this.weaponList.indexOf(this.weapon)
+        if (index >= this.weaponList.length - 1) {
+            index = 0;
+        } else {
+            index++;
+        }
 
-    this.weapon = this.weaponList[index];
-    
-    var angle;// = game.physics.arcade.angleToPointer(this);
-    this.weapon.appear(angle);
+        this.weapon = this.weaponList[index];
+        
+        var angle;// = game.physics.arcade.angleToPointer(this);
+        this.weapon.appear(angle);
+
+        this.properties.switchInterval = game.time.now + this.properties.switchDelay;
+    }
 }
 
 function initKeyboard (self) {

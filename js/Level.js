@@ -110,7 +110,8 @@ Level.prototype = {
         
         this.items = game.add.group();
         this.map.createFromObjects('item', 21, graphicAssets.dandelion.name, 0, true, false, this.items, Food);
-        this.map.createFromObjects('item', 26, graphicAssets.arrow.name, 0, true, false, this.items, Arrow);
+        this.map.createFromObjects('item', 26, graphicAssets.arrow.name, 0, true, false, this.items, ArrowPickup);
+        this.map.createFromObjects('item', 25, graphicAssets.bomb.name, 0, true, false, this.items, BombPickup);
         
         initPlayer(this, this.spawnX, this.spawnY, this.playerProperties);
         

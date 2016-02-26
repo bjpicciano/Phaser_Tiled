@@ -31,8 +31,8 @@ mainState.prototype = {
         this.scale.pageAlignVertically = true;
         initKeyboard(this);
         
-        // game.input.onDown.addOnce(this.startGame, this);
-        this.startGame();
+        game.input.onDown.addOnce(this.startGame, this);
+        // this.startGame();
     },
     
     startGame: function () {

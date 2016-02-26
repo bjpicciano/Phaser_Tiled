@@ -112,7 +112,7 @@ Bow.prototype.pickUp = function (hitter, hitee) {
     player.addChild(this);
 };
 
-var Arrow = function (game, x, y, key, frame) {
+var ArrowPickup = function (game, x, y, key, frame) {
     if (x == undefined) { x = 0; }
     if (y == undefined) { y = 0; }
     if (key == undefined) { key = graphicAssets.arrow.name; }
@@ -126,19 +126,19 @@ var Arrow = function (game, x, y, key, frame) {
     game.physics.enable(this, Phaser.Physics.ARCADE);
 };
 
-Arrow.prototype = Object.create(Phaser.Sprite.prototype);
-Arrow.prototype.constructor = Arrow;
+ArrowPickup.prototype = Object.create(Phaser.Sprite.prototype);
+ArrowPickup.prototype.constructor = ArrowPickup;
 
-Arrow.prototype.update = function () {
+ArrowPickup.prototype.update = function () {
     this.pickUp();
 };
 
-Arrow.prototype.pickUp = function () {
+ArrowPickup.prototype.pickUp = function () {
     var player = game.state.getCurrentState().player;
     game.physics.arcade.overlap(this, player, this.addArrow, null, this);
 }
 
-Arrow.prototype.addArrow = function (hitter, hitee) {
+ArrowPickup.prototype.addArrow = function (hitter, hitee) {
     hitee.properties.arrowCount += 1;
     this.destroy();
 };

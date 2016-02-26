@@ -114,3 +114,34 @@ var Hitbox = function (game, x, y, key, frame) {
 
 Hitbox.prototype = Object.create(Phaser.Sprite.prototype);
 Hitbox.prototype.constructor = Hitbox;
+
+var BombPickup = function (game, x, y, key, frame) {
+    if (x == undefined) { x = 0; }
+    if (y == undefined) { y = 0; }
+    if (key == undefined) { key = graphicAssets.bomb.name; }
+    
+    //call the Phaser.Sprite passing in the game reference
+    Phaser.Sprite.call(this, game, x, y, key);
+    this.anchor.setTo(0.5, 0.5);
+
+    game.add.existing(this);
+    
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+};
+
+BombPickup.prototype = Object.create(Phaser.Sprite.prototype);
+BombPickup.prototype.constructor = BombPickup;
+
+BombPickup.prototype.update = function () {
+    this.pickUp();
+};
+
+BombPickup.prototype.pickUp = function () {
+    var player = game.state.getCurrentState().player;
+    game.physics.arcade.overlap(this, player, this.addBomb, null, this);
+}
+
+BombPickup.prototype.addBomb = function (hitter, hitee) {
+    hitee.properties.bombCount += 1;
+    this.destroy();
+};
