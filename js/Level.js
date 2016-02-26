@@ -39,10 +39,18 @@ Level.prototype = {
     render: function () {
         if (this.debug) {
             game.debug.body(this.player);
-            game.debug.body(this.player.swordSprite);
+            game.debug.body(this.player.weapon);
             game.debug.body(this.player.bombSprite);
             
             this.enemies.forEachAlive(function (member) {
+                game.debug.body(member);
+                }, this);
+                
+            this.items.forEachAlive(function (member) {
+                game.debug.body(member);
+                }, this);
+                
+            this.destructables.forEachAlive(function (member) {
                 game.debug.body(member);
                 }, this);
         }
@@ -58,7 +66,6 @@ Level.prototype = {
     
     update: function () {
         this.checkBoundaries();
-        // console.log(game.time.fps)
         
         for (var obj in this.zones) {
             var zone = this.zones[obj];
@@ -103,7 +110,8 @@ Level.prototype = {
         
         this.items = game.add.group();
         this.map.createFromObjects('item', 21, graphicAssets.dandelion.name, 0, true, false, this.items, Food);
-         
+        this.map.createFromObjects('item', 26, graphicAssets.bow.name, 0, true, false, this.items, Bow);
+        
         initPlayer(this, this.spawnX, this.spawnY, this.playerProperties);
         
         this.enemies = game.add.group();

@@ -26,7 +26,23 @@
          "draworder":"topdown",
          "height":0,
          "name":"item",
-         "objects":[],
+         "objects":[
+                {
+                 "gid":26,
+                 "height":32,
+                 "id":18,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1856,
+                 "y":1568
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -166,7 +182,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"destructable",
          "objects":[
                 {
@@ -268,11 +284,11 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":100,
+         "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":18,
+ "nextobjectid":20,
  "orientation":"orthogonal",
  "properties":
     {

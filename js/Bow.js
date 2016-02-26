@@ -21,6 +21,7 @@ var Bow = function (game, x, y, key, frame) {
         distanceFrom: 25,
 
         damage: 3,
+        
     };
     
     this.arrowGroup = game.add.group();
@@ -31,26 +32,30 @@ var Bow = function (game, x, y, key, frame) {
     this.arrowGroup.setAll('anchor.y', 0.5);
  
     game.add.existing(this);
+    
+    game.physics.enable(this, Phaser.Physics.ARCADE);
 };
 
 Bow.prototype = Object.create(Phaser.Sprite.prototype);
 Bow.prototype.constructor = Bow;
 
 Bow.prototype.update = function () {
+    game.physics.arcade.overlap(this, game.state.getCurrentState().player, this.pickUp, null, this);
     game.physics.arcade.overlap(this.arrowGroup, game.state.getCurrentState().enemies, this.damage, null, this);
-    game.physics.arcade.overlap(this.arrowGroup, game.state.getCurrentState().destructables, this.killArrow, null, this);
+    // game.physics.arcade.overlap(this.arrowGroup, game.state.getCurrentState().destructables, this.killArrow, null, this);
     game.physics.arcade.collide(this.arrowGroup, game.state.getCurrentState().layer[1]);
+    game.physics.arcade.collide(this.arrowGroup, game.state.getCurrentState().destructables);
 };
 
 //the player calls this and makes THIS the player for some reason
 Bow.prototype.attack = function () {
-    if (game.time.now > this.swordSprite.properties.attackInterval) {
+    if (game.time.now > this.weapon.properties.attackInterval) {
         var player = game.state.getCurrentState().player;
         var angleToPointer = game.physics.arcade.angleToPointer(player);
 
-        this.swordSprite.appear(angleToPointer);
+        this.weapon.appear(angleToPointer);
 
-        this.swordSprite.properties.attackInterval = game.time.now + this.swordSprite.properties.attackDelay;
+        this.weapon.properties.attackInterval = game.time.now + this.weapon.properties.attackDelay;
     }
 }
 
@@ -83,7 +88,6 @@ Bow.prototype.fire = function (angleToPointer) {
     }
 };
 
-
 Bow.prototype.disappear = function () {
     this.kill();
 };
@@ -93,6 +97,19 @@ Bow.prototype.damage = function (hitter, hitee) {
     hitee.takeDamage(this.properties.damage);
 };
 
-Bow.prototype.killArrow = function (hitter, hitee) {
-    hitter.kill();
-}
+Bow.prototype.pickUp = function (hitter, hitee) {
+    var player =  game.state.getCurrentState().player;
+    var weaponList = player.properties.weaponList
+    var index = weaponList.indexOf(this);
+    if (index < 0) {
+        weaponList.push(hitter);
+        hitter.kill();
+        hitter.body.destroy();
+    }
+    
+    player.addChild(this);
+};
+
+// Bow.prototype.killArrow = function (hitter, hitee) {
+//     hitter.kill();
+// }
