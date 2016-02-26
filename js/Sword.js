@@ -38,13 +38,13 @@ Sword.prototype.update = function () {
 
 //the player calls this and makes THIS the player for some reason
 Sword.prototype.attack = function () {
-    if (game.time.now > this.weapon.properties.attackInterval) {
+    if (game.time.now > this.properties.attackInterval) {
         var player = game.state.getCurrentState().player;
         var angleToPointer = game.physics.arcade.angleToPointer(player);
 
-        this.weapon.appear(angleToPointer);
+        this.appear(angleToPointer);
 
-        this.weapon.properties.attackInterval = game.time.now + this.weapon.properties.attackDelay;
+        this.properties.attackInterval = game.time.now + this.properties.attackDelay;
     }
 }
 

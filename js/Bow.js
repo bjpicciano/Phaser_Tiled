@@ -49,13 +49,14 @@ Bow.prototype.update = function () {
 
 //the player calls this and makes THIS the player for some reason
 Bow.prototype.attack = function () {
-    if (game.time.now > this.weapon.properties.attackInterval) {
+    if (game.time.now > this.properties.attackInterval) {
         var player = game.state.getCurrentState().player;
         var angleToPointer = game.physics.arcade.angleToPointer(player);
 
-        this.weapon.appear(angleToPointer);
+        this.appear(angleToPointer);
+        this.fire(angleToPointer);
 
-        this.weapon.properties.attackInterval = game.time.now + this.weapon.properties.attackDelay;
+        this.properties.attackInterval = game.time.now + this.properties.attackDelay;
     }
 }
 
@@ -66,8 +67,6 @@ Bow.prototype.appear = function (angleToPointer) {
     this.reset(x, y);
     
     this.rotation = angleToPointer;
-
-    this.fire(angleToPointer);
     
     game.time.events.add(this.properties.attackLifespan, this.disappear, this);
 };
@@ -83,7 +82,6 @@ Bow.prototype.fire = function (angleToPointer) {
         arrow.reset(x, y);
         arrow.rotation = angleToPointer;
         arrow.lifespan = this.properties.arrowLifespan;
-        
         game.physics.arcade.moveToPointer(arrow, this.properties.velocity);
     }
 };
@@ -99,7 +97,7 @@ Bow.prototype.damage = function (hitter, hitee) {
 
 Bow.prototype.pickUp = function (hitter, hitee) {
     var player =  game.state.getCurrentState().player;
-    var weaponList = player.properties.weaponList
+    var weaponList = player.weaponList
     var index = weaponList.indexOf(this);
     if (index < 0) {
         weaponList.push(hitter);

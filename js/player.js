@@ -7,15 +7,25 @@ var Player = function (game, x, y, key, frame) {
     Phaser.Sprite.call(this, game, x, y, key);
     this.anchor.setTo(0.5, 0.5);
     
+    this.weaponList = [],
     this.weapon = new Sword(game, 0, 0, undefined, undefined);
     this.addChild(this.weapon);
+    this.weaponList.push(this.weapon);
+
+    var bow = new Bow(game, 0, 0, undefined, undefined);
+    this.addChild(bow);
+    this.weaponList.push(bow);
     
     this.bombSprite = new Bomb(game, 0, 0, undefined, undefined);
     
     game.camera.follow(this);
     
+    this.switches = {
+        key_q: false,
+        key_attack: false,
+    };
+    
     this.properties = {
-        weaponList: [],
         velocityStart: 235,
         velocitySprint: 350,
         velocity: undefined,
@@ -26,7 +36,6 @@ var Player = function (game, x, y, key, frame) {
         canTakeDamage: true,
     };
     this.properties.health = this.properties.healthMax;
-    this.properties.weaponList.push(this.weapon);
 
     this.healthbar = new Healthbar(game, 0, -27, undefined, undefined);
     this.healthbar.attachParent(this);
@@ -35,8 +44,6 @@ var Player = function (game, x, y, key, frame) {
     game.add.existing(this);
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
-    
-    game.input.onDown.add(this.weapon.attack, this);
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -79,16 +86,23 @@ Player.prototype.checkPlayerInput = function () {
     } else {
         this.properties.velocity = this.properties.velocityStart;
     }
-    //E
-    if (game.state.getCurrentState().keys.key_use.isDown) {
+    //attack
+    if (game.state.getCurrentState().keys.key_attack.isDown) {
+        this.switches.key_attack = false;
+        this.weapon.attack();
+    } if (game.state.getCurrentState().keys.key_attack.isUp) {
+        this.switches.key_attack = true;
     }
-    //X
+    //x
     if (game.state.getCurrentState().keys.key_x.isDown) {
         this.bombSprite.attack();
     }
-    //Q
-    if (game.state.getCurrentState().keys.key_q.isDown) {
+    //q
+    if (game.state.getCurrentState().keys.key_q.isDown && this.switches.key_q) {
+        this.switches.key_q = false;
         this.switchWeapons();
+    } if (game.state.getCurrentState().keys.key_q.isUp) {
+        this.switches.key_q = true;
     }
 };
 
@@ -112,14 +126,14 @@ Player.prototype.takeHeal = function (health) {
 }
 
 Player.prototype.switchWeapons = function () {
-    var index = this.properties.weaponList.indexOf(this.weapon)
-    if (index >= this.properties.weaponList.length - 1) {
+    var index = this.weaponList.indexOf(this.weapon)
+    if (index >= this.weaponList.length - 1) {
         index = 0;
     } else {
         index++;
     }
 
-    this.weapon = this.properties.weaponList[index];
+    this.weapon = this.weaponList[index];
     console.log(this.weapon);
 }
 
