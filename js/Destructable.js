@@ -5,7 +5,6 @@ var Destructable = function (game, x, y, key, frame) {
     
     //call the Phaser.Sprite passing in the game reference
     Phaser.Sprite.call(this, game, x, y, key);
-    this.anchor.setTo(0.5, 0.5);
     
     this.properties = {
         //the game.time until the next attack can be made

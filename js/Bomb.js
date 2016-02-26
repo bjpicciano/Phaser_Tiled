@@ -14,9 +14,9 @@ var Bomb = function (game, x, y, key, frame) {
         //the delay between attacks. Added to attackInterval
         attackDelay: 1500,
         //the time of the bomb's fuse
-        attackLifespan: 1400,
+        attackLifespan: 1500,
         //the size of the bomb's explosion
-        hitboxSize: 98,
+        hitboxSize: 156,
         //the velocity the bomb is thrown at
         velocity: 200,
         damage: 5,
@@ -33,6 +33,7 @@ var Bomb = function (game, x, y, key, frame) {
     game.add.existing(this);
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.body.setSize(16, 16, 0);
 };
 
 Bomb.prototype = Object.create(Phaser.Sprite.prototype);
@@ -122,7 +123,6 @@ var BombPickup = function (game, x, y, key, frame) {
     
     //call the Phaser.Sprite passing in the game reference
     Phaser.Sprite.call(this, game, x, y, key);
-    this.anchor.setTo(0.5, 0.5);
 
     game.add.existing(this);
     

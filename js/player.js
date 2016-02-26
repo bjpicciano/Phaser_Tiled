@@ -48,6 +48,7 @@ var Player = function (game, x, y, key, frame) {
     game.add.existing(this);
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.body.setSize(28, 28, 0);
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);

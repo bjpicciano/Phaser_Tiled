@@ -119,7 +119,6 @@ var ArrowPickup = function (game, x, y, key, frame) {
     
     //call the Phaser.Sprite passing in the game reference
     Phaser.Sprite.call(this, game, x, y, key);
-    this.anchor.setTo(0.5, 0.5);
 
     game.add.existing(this);
     
