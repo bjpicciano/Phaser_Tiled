@@ -40,11 +40,17 @@ var graphicAssets = {
     protoTiles: {URL:'assets/protoTiles.png', name:'protoTiles'},
 };
 
+var dungeonAssets = {
+    easyForestPathDungeon: {URL:'states/json/easyForestPathDungeon.json', name:'easyForestPathDungeon'},
+}
+
 var firstMapAssets = {
-    forest1: {URL:'states/json/protoLevel.json', name:'forest1'},
-    house: {URL:'states/json/protoLevel2.json', name:'house'},
-    arena: {URL:'states/json/protoLevel3.json', name:'arena'},
-    gateTransition: {URL:'states/json/gateTransition.json', name:'gateTransition'},
+    // forest1: {URL:'states/json/prototypes/protoLevel.json', name:'forest1'},
+    // house: {URL:'states/json/prototypes/protoLevel2.json', name:'house'},
+    // arena: {URL:'states/json/prototypes/protoLevel3.json', name:'arena'},
+    // gateTransition: {URL:'states/json/prototypes/gateTransition.json', name:'gateTransition'},
+    easyForestVillage: {URL:'states/json/easyForestVillage.json', name:'easyForestVillage'},
+    easyForestPath: {URL:'states/json/easyForestPath.json', name:'easyForestPath'},
 };
 
 var secondMapAssets = {

@@ -8,10 +8,13 @@ var Destructable = function (game, x, y, key, frame) {
     
     this.properties = {
         //the game.time until the next attack can be made
+        healthMax: 10,
         health: 10,
     };
  
     game.add.existing(this);
+    
+    this.healthbar = attachHealthbar(this);
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.body.immovable = true;

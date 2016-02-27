@@ -26,7 +26,8 @@ var Player = function (game, x, y, key, frame) {
     };
     
     this.properties = {
-        bombCount: 1,
+        hitboxSize: 25,
+        bombCount: 2,
         arrowCount: 3,
         velocityStart: 235,
         velocitySprint: 350,
@@ -48,7 +49,7 @@ var Player = function (game, x, y, key, frame) {
     game.add.existing(this);
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.body.setSize(28, 28, 0);
+    this.body.setSize(this.properties.hitboxSize, this.properties.hitboxSize, 0);
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);

@@ -18,7 +18,7 @@ var Healthbar = function (game, x, y, key, frame) {
         //the game.time until the appearance can be made
         interval: 0,
         //the time the healthbar appears for
-        lifespan: 1500,
+        lifespan: 3500,
     };
 
     game.add.existing(this);

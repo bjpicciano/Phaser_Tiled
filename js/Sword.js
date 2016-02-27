@@ -16,9 +16,9 @@ var Sword = function (game, x, y, key, frame) {
         //the time the sword appears for
         attackLifespan: 200,
         //the distance away from the parent
-        distanceFrom: 35,
+        distanceFrom: 34,
         //the size of the sword's hitbox
-        hitboxSize: 24,
+        hitboxSize: 20,
         damage: 3,
         //boolean to determine if it can damage another sprite
         canDamage: true,
@@ -65,7 +65,9 @@ Sword.prototype.appear = function (angleToPointer) {
 
 Sword.prototype.disappear = function () {
     this.kill();
-    this.body.destroy();
+    if (this.body != undefined) {
+        this.body.destroy();
+    }
 };
 
 Sword.prototype.damage = function (hitter, hitee) {
@@ -77,3 +79,4 @@ Sword.prototype.damage = function (hitter, hitee) {
         game.time.events.add(this.properties.canDamageTimer, function () { this.properties.canDamage = true }, this);
     }
 };
+

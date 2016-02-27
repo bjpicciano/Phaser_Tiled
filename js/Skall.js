@@ -6,15 +6,16 @@ var Skall = function (game, x, y, key, frame) {
 
     //call the Phaser.Sprite passing in the game reference
     Phaser.Sprite.call(this, game, x, y, key);
-    this.anchor.setTo(0.5, 0.5);
+    // this.anchor.setTo(0.5, 0.5);
 
     this.properties = {
+        hitboxSize: 30,
         startX: x,
         startY: y,
         velocityWalk: 60,
         velocityCharge: 310 + game.rnd.integerInRange(-50, 40),
         velocity: 100 + game.rnd.integerInRange(-15, 15),
-        fov: 250 + game.rnd.integerInRange(-50, 25),
+        fov: 150 + game.rnd.integerInRange(-50, 25),
         leapFov: 75 + game.rnd.integerInRange(-40, 25),
         damage: 1,
         healthMax: 5,
@@ -29,6 +30,7 @@ var Skall = function (game, x, y, key, frame) {
     game.add.existing(this);
     
     game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.body.setSize(this.properties.hitboxSize, this.properties.hitboxSize, 0);
 };
 
 Skall.prototype = Object.create(Phaser.Sprite.prototype);
