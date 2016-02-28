@@ -22,7 +22,7 @@ var Skall = function (game, x, y, key, frame) {
         health: 5,
         canDamage: true,
         canDamageTimer: 200,
-        roamer: game.rnd.integerInRange(0, 4), // 1/4 chance of being a roamer
+        roamer: game.rnd.integerInRange(0, 5), // 1/5 chance of being a roamer
     };
     
     this.healthbar = attachHealthbar(this);
@@ -40,7 +40,7 @@ Skall.prototype.update = function () {
     this.updatePhysics();
     
     if (this.player != undefined) {
-        if (this.properties.roamer == 0) {
+        if (this.properties.roamer == 1) {
             this.roam();
         } else {
             this.idle();
