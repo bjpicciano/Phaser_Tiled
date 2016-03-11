@@ -49,8 +49,8 @@ var firstMapAssets = {
     // house: {URL:'states/json/prototypes/protoLevel2.json', name:'house'},
     // arena: {URL:'states/json/prototypes/protoLevel3.json', name:'arena'},
     // gateTransition: {URL:'states/json/prototypes/gateTransition.json', name:'gateTransition'},
-    // easyForestVillage: {URL:'states/json/easyForestVillage.json', name:'easyForestVillage'},
-    // easyForestPath: {URL:'states/json/easyForestPath.json', name:'easyForestPath'},
+    easyForestVillage: {URL:'states/json/easyForestVillage.json', name:'easyForestVillage'},
+    easyForestPath: {URL:'states/json/easyForestPath.json', name:'easyForestPath'},
     easyMountain: {URL:'states/json/easyMountain.json', name:'easyMountain'},
 };
 
