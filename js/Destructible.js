@@ -1,4 +1,4 @@
-var Destructable = function (game, x, y, key, frame) {
+var Destructible = function (game, x, y, key, frame) {
     if (x == undefined) { x = 0; }
     if (y == undefined) { y = 0; }
     if (key == undefined) { key = graphicAssets.brick.name; }
@@ -20,15 +20,15 @@ var Destructable = function (game, x, y, key, frame) {
     this.body.immovable = true;
 };
 
-Destructable.prototype = Object.create(Phaser.Sprite.prototype);
-Destructable.prototype.constructor = Destructable;
+Destructible.prototype = Object.create(Phaser.Sprite.prototype);
+Destructible.prototype.constructor = Destructible;
 
-Destructable.prototype.update = function () {
+Destructible.prototype.update = function () {
     game.physics.arcade.collide(this, game.state.getCurrentState().player);
     game.physics.arcade.collide(this, game.state.getCurrentState().enemies);
 };
 
-Destructable.prototype.takeDamage = function (damage) {
+Destructible.prototype.takeDamage = function (damage) {
     this.properties.health -= damage;
     
     if (this.properties.health <= 0) {

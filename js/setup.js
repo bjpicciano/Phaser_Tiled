@@ -18,7 +18,7 @@ var color = {
     purple: 0x9933FF,
     green: 0x009933,
     blue: 0x3366FF,
-}
+};
 
 var graphicAssets = {
     //sprites
@@ -33,7 +33,7 @@ var graphicAssets = {
     bomb: {URL:'assets/bomb.png', name:'bomb'},
     tree: {URL:'assets/tree.png', name:'tree'},
     brick: {URL:'assets/brick.png', name:'brick'},
-    destructableBrick: {URL:'assets/destructableBrick.png', name:'destructableBrick'},
+    destructibleBrick: {URL:'assets/destructibleBrick.png', name:'destructibleBrick'},
     skall: {URL:'assets/skall.png', name:'skall'},
     fonkey: {URL:'assets/fonkey.png', name:'fonkey'},
     dandelion: {URL:'assets/dandelion.png', name:'dandelion'},
@@ -42,7 +42,7 @@ var graphicAssets = {
 
 var dungeonAssets = {
     easyForestPathDungeon: {URL:'states/json/easyForestPathDungeon.json', name:'easyForestPathDungeon'},
-}
+};
 
 var firstMapAssets = {
     // forest1: {URL:'states/json/prototypes/protoLevel.json', name:'forest1'},
@@ -57,7 +57,7 @@ var firstMapAssets = {
 var secondMapAssets = {
     medium1: {URL:'states/json/medium1.json', name:'medium1'},
     medium2: {URL:'states/json/medium2.json', name:'medium2'},
-}
+};
 
 var fontAssets = {
     counterFontStyle:{font: '20px Arial', fill: '#FFFFFF', align: 'center'},

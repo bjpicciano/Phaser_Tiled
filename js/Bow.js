@@ -41,9 +41,9 @@ Bow.prototype.constructor = Bow;
 Bow.prototype.update = function () {
     game.physics.arcade.overlap(this, game.state.getCurrentState().player, this.pickUp, null, this);
     game.physics.arcade.overlap(this.arrowGroup, game.state.getCurrentState().enemies, this.damage, null, this);
-    // game.physics.arcade.overlap(this.arrowGroup, game.state.getCurrentState().destructables, this.killArrow, null, this);
+    // game.physics.arcade.overlap(this.arrowGroup, game.state.getCurrentState().destructibles, this.killArrow, null, this);
     game.physics.arcade.collide(this.arrowGroup, game.state.getCurrentState().layer[1]);
-    game.physics.arcade.collide(this.arrowGroup, game.state.getCurrentState().destructables);
+    game.physics.arcade.collide(this.arrowGroup, game.state.getCurrentState().destructibles);
 };
 
 //the player calls this and makes THIS the player for some reason
