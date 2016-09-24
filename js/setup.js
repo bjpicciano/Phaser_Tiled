@@ -26,7 +26,7 @@ var graphicAssets = {
     background: {URL:'assets/background.png', name:'background'},
     player: {URL:'assets/player.png', name:'player'},
     playerAnim: {URL:'assets/playerAnim.png', name:'playerAnim'},
-    healthbar: {URL:'assets/healthbar.png', name:'healthbar'},
+    healthbar: {URL:'assets/healthBar.png', name:'healthbar'},
     sword: {URL:'assets/sword.png', name:'sword'},
     bow: {URL:'assets/bow.png', name:'bow'},
     arrow: {URL:'assets/arrow.png', name:'arrow'},
